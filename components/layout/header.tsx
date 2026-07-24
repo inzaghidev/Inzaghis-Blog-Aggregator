@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
-import { Bell, Menu, Moon, Search, Sun } from "lucide-react";
+import { Bell, Menu, X, Moon, Search, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
+
 export function Header() {
   const [dark, setDark] = useState(false);
   const [open, setOpen] = useState(false);
@@ -19,12 +20,18 @@ export function Header() {
           href="/"
           className="flex shrink-0 items-center gap-2 text-sm font-bold tracking-tight"
         >
-          <span className="grid size-7 place-items-center rounded-lg border border-orange-500 text-xs text-orange-500">
-            ◇
-          </span>
-          <span>
-            inzaghi<span className="text-orange-500">.blog</span>
-          </span>
+          <div
+            id="header-logo inzaghis-blog-logo"
+            className="flex items-center gap-2.5 cursor-pointer"
+          >
+            <img
+              src="/icons/inzaghis-blog-logo-vertical-transparent.png"
+              title="Inzaghi's Blog"
+              className="!h-14"
+              id="logo-nav"
+              alt="Inzaghi's Blog"
+            />
+          </div>
         </Link>
         <nav className="hidden items-center gap-5 text-xs font-semibold text-zinc-500 md:flex">
           <Link className="text-orange-600" href="/">

@@ -2,7 +2,12 @@
   "name": "inzaghis-blog-aggregator",
   "version": "1.0.0",
   "private": true,
-  "scripts": { "dev": "next dev", "build": "next build", "start": "next start", "lint": "next lint" },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.12",
     "clsx": "^2.1.1",
@@ -11,7 +16,13 @@
     "next": "^15.4.6",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-github-btn": "^1.4.0",
     "sanitize-html": "^2.16.0"
   },
-  "devDependencies": { "@types/node": "^22", "@types/react": "^19", "@types/sanitize-html": "^2.13.0", "typescript": "^5" }
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/sanitize-html": "^2.13.0",
+    "typescript": "^5"
+  }
 }
