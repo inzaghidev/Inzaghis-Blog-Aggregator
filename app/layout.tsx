@@ -8,11 +8,16 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   ),
   title: {
-    default: "Inzaghi's Blog — Ideas worth building",
+    default: "Inzaghi's Blog — Blog Post Aggregator",
     template: "%s | Inzaghi's Blog",
   },
   description:
     "A modern developer and technology publication, curated from Inzaghi's Blog, Teknoblog, and Miniblog.",
+  icons: {
+    icon: "/icons/inzaghis-blog-36x36.png",
+    shortcut: "/icons/inzaghis-blog-36x36.png",
+    apple: "/icons/inzaghis-blog-36x36.png",
+  },
   openGraph: { type: "website", siteName: "Inzaghi's Blog", locale: "en_US" },
   twitter: { card: "summary_large_image" },
 };
