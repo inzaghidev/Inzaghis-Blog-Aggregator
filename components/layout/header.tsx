@@ -84,13 +84,25 @@ export function Header() {
       </div>
       {open && (
         <nav className="flex flex-col gap-3 border-t px-5 py-4 text-sm md:hidden bg-white dark:bg-[#0b0b0c]">
-          <Link onClick={() => setOpen(false)} className={linkClass("/")} href="/">
+          <Link
+            onClick={() => setOpen(false)}
+            className={linkClass("/")}
+            href="/"
+          >
             Home
           </Link>
-          <Link onClick={() => setOpen(false)} className={linkClass("/blogs")} href="/blogs">
+          <Link
+            onClick={() => setOpen(false)}
+            className={linkClass("/blogs")}
+            href="/blogs"
+          >
             Blogs
           </Link>
-          <Link onClick={() => setOpen(false)} className={linkClass("/microblogs")} href="/microblogs">
+          <Link
+            onClick={() => setOpen(false)}
+            className={linkClass("/microblogs")}
+            href="/microblogs"
+          >
             Microblogs
           </Link>
         </nav>
