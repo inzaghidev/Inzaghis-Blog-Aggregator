@@ -55,7 +55,7 @@ export const mockArticles: Article[] = stories.map(
       cover: `https://images.unsplash.com/${image}?auto=format&fit=crop&w=1400&q=85`,
       labels: [label, index % 2 ? "Technology" : "Developer Experience"],
       author: {
-        name: index % 2 ? "Alex Rivera" : "Sarah Jenkins",
+        name: index % 2 ? "Inzaghi Posuma" : "Alex Rivera",
         bio: "Writer, builder, and lifelong learner.",
       },
       views: 1200 + index * 438,
