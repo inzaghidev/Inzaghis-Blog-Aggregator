@@ -1,3 +1,6 @@
-import Link from "next/link";
-const categories = ["Programming", "Technology", "AI", "Machine Learning", "Cybersecurity", "Tutorial", "News", "Developer Experience"];
-export default function Categories() { return <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6"><p className="text-xs font-bold uppercase tracking-wider text-orange-500">Discover</p><h1 className="mt-2 text-4xl font-extrabold tracking-tight">Explore topics</h1><div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{categories.map((c, i) => <Link key={c} href={`/categories/${c.toLowerCase().replaceAll(" ", "-")}`} className="paper rounded-2xl p-6 transition hover:-translate-y-1"><span className="text-3xl">{["⌘","◈","✦","◌"][i % 4]}</span><h2 className="mt-8 font-bold">{c}</h2><p className="mt-1 text-xs text-zinc-500">Curated stories and practical insight</p></Link>)}</div></main> }
+import { redirect } from "next/navigation";
+
+export default function Categories() {
+  redirect("/blogs");
+}
+

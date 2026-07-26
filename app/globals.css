@@ -1,14 +1,55 @@
 @import "tailwindcss";
 
-@theme { --font-sans: "Inter", "Segoe UI", Arial, sans-serif; --font-mono: "SFMono-Regular", Consolas, monospace; }
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { background: #fafafa; color: #1b1b1b; }
-.dark body { background: #0b0b0c; color: #f5f5f5; }
-.paper { background: rgba(255,255,255,.72); border: 1px solid rgba(229,229,229,.9); box-shadow: 0 8px 30px rgba(0,0,0,.025); }
-.dark .paper { background: rgba(25,25,25,.74); border-color: rgba(255,255,255,.08); }
-.article-copy p { margin: 1.1rem 0; line-height: 1.8; color: #4b4b4b; }
-.dark .article-copy p { color: #c4c4c4; }
-.article-copy h2 { margin-top: 2.5rem; font-size: 1.45rem; font-weight: 750; letter-spacing: -.03em; }
-.article-copy pre { overflow-x: auto; border-radius: 1rem; background:#111; padding:1.2rem; color:#f7f7f7; margin:1.5rem 0; }
-.article-copy img { border-radius: 1rem; margin: 1.5rem 0; }
+@theme {
+  --font-sans: "Inter", "Segoe UI", Arial, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, monospace;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  background: #fafafa;
+  color: #1b1b1b;
+}
+.dark body {
+  background: #0b0b0c;
+  color: #f5f5f5;
+}
+.paper {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(229, 229, 229, 0.9);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.025);
+}
+.dark .paper {
+  background: rgba(25, 25, 25, 0.74);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+.article-copy p {
+  margin: 1.1rem 0;
+  line-height: 1.8;
+  color: #4b4b4b;
+}
+.dark .article-copy p {
+  color: #c4c4c4;
+}
+.article-copy h2 {
+  margin-top: 2.5rem;
+  font-size: 1.45rem;
+  font-weight: 750;
+  letter-spacing: -0.03em;
+}
+.article-copy pre {
+  overflow-x: auto;
+  border-radius: 1rem;
+  background: #111;
+  padding: 1.2rem;
+  color: #f7f7f7;
+  margin: 1.5rem 0;
+}
+.article-copy img {
+  border-radius: 1rem;
+  margin: 1.5rem 0;
+}

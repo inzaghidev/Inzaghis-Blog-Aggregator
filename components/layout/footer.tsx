@@ -24,9 +24,10 @@ export function Footer() {
             reserved.
           </span>
         </div>
-        <nav className="sm:ml-auto flex gap-4">
+        <nav className="sm:ml-auto flex flex-wrap gap-4 items-center">
           <Link href="/about">About</Link>
-          <Link href="/categories">Categories</Link>
+          <Link href="/blogs">Blogs</Link>
+          <Link href="/microblogs">Microblogs</Link>
           <Link href="/privacy">Privacy</Link>
           <Link href="/rss.xml">RSS</Link>
           <GitHubButton

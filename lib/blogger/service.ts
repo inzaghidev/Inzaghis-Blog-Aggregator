@@ -4,7 +4,7 @@ import { mockArticles } from "./mock";
 import type { Article, Blog, BlogSource } from "./types";
 
 const names: Record<BlogSource, string> = {
-  legacy: "Inzaghi's Blog",
+  legacy: "IB Legacy",
   teknoblog: "Teknoblog",
   miniblog: "Miniblog",
 };
