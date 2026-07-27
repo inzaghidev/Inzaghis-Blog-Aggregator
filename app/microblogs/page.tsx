@@ -5,11 +5,9 @@ export const revalidate = 300;
 
 export default async function MicroblogsPage() {
   const articles = await getArticles();
-  
+
   // Filter for Miniblog (miniblog)
-  const microArticles = articles.filter(
-    (a) => a.source === "miniblog"
-  );
+  const microArticles = articles.filter((a) => a.source === "miniblog");
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6">

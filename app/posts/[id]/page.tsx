@@ -54,20 +54,20 @@ export default async function Post({
           <h1 className="mt-3 text-4xl font-extrabold leading-[1.05] tracking-[-.05em] sm:text-5xl">
             {article.title}
           </h1>
-          <div className="mt-6 flex flex-col gap-4 border-y border-zinc-200 py-4 text-xs dark:border-zinc-800 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-3">
+          <div className="mt-6 flex min-w-0 flex-col gap-4 border-y border-zinc-200 py-4 text-xs dark:border-zinc-800 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex min-w-0 items-center gap-3">
               <span className="grid size-9 place-items-center rounded-full bg-orange-500 font-bold text-white">
                 {article.author.name[0]}
               </span>
-              <Link href={`/authors/${authorSlug}`} className="group">
-                <span>
+              <Link href={`/authors/${authorSlug}`} className="group min-w-0">
+                <span className="min-w-0 break-words">
                   <b>{article.author.name}</b>
                   <br />
                   <span className="text-zinc-400">Author & Editor</span>
                 </span>
               </Link>
             </div>
-            <span className="flex items-center gap-3 text-zinc-500">
+            <span className="flex min-w-0 items-center gap-3 text-zinc-500">
               <Clock className="size-4" /> 12 min <Eye className="size-4" />{" "}
               {article.views}
             </span>
