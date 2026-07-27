@@ -13,6 +13,10 @@ export const metadata: Metadata = {
   },
   description:
     "A modern developer and technology publication, curated from Inzaghi's Blog, Teknoblog, and Miniblog.",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
   icons: {
     icon: "/icons/inzaghis-blog-36x36.png",
     shortcut: "/icons/inzaghis-blog-36x36.png",

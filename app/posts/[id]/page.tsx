@@ -54,7 +54,7 @@ export default async function Post({
           <h1 className="mt-3 text-4xl font-extrabold leading-[1.05] tracking-[-.05em] sm:text-5xl">
             {article.title}
           </h1>
-          <div className="mt-6 flex items-center justify-between border-y border-zinc-200 py-4 text-xs dark:border-zinc-800">
+          <div className="mt-6 flex flex-col gap-4 border-y border-zinc-200 py-4 text-xs dark:border-zinc-800 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
               <span className="grid size-9 place-items-center rounded-full bg-orange-500 font-bold text-white">
                 {article.author.name[0]}

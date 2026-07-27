@@ -39,7 +39,7 @@ export function Header() {
             <img
               src="/icons/inzaghis-blog-logo-vertical-transparent.png"
               title="Inzaghi's Blog"
-              className="!h-14"
+              className="h-10 w-auto max-w-[160px]"
               id="logo-nav"
               alt="Inzaghi's Blog"
             />
