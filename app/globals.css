@@ -53,3 +53,33 @@ body {
   border-radius: 1rem;
   margin: 1.5rem 0;
 }
+
+/* Prevent wide content from overflowing on small screens */
+.article-copy,
+.article-copy * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.article-copy {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.article-copy pre {
+  /* allow code blocks to wrap and still be scrollable when needed */
+  white-space: pre-wrap; /* wrap long lines */
+  overflow-x: auto;
+}
+.article-copy img,
+.article-copy iframe,
+.article-copy video,
+.article-copy embed {
+  max-width: 100%;
+  height: auto;
+}
+
+/* smaller paddings for very small viewports if needed */
+@media (max-width: 420px) {
+  .article-copy {
+    font-size: 14px;
+  }
+}
