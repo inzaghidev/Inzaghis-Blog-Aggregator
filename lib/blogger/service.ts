@@ -25,19 +25,45 @@ const api = async (path: string) => {
   if (!response.ok) throw new Error(`Blogger API returned ${response.status}`);
   return response.json();
 };
+const extractFirstImage = (content: string): string | null => {
+  if (!content) return null;
+  const match = content.match(/<img[^>]+src=["']([^"']+)["']/i);
+  return match ? match[1] : null;
+};
+
 const normalize = (post: any, blogId: string, i = 0): Article => {
   const content = sanitizeHtml(post.content || "", {
     allowedTags: sanitizeHtml.defaults.allowedTags.concat([
       "img",
       "pre",
       "code",
+      "table",
+      "thead",
+      "tbody",
+      "tr",
+      "th",
+      "td",
+      "caption",
+      "figure",
+      "figcaption",
+      "div",
+      "span",
     ]),
     allowedAttributes: {
-      "*": ["class"],
-      a: ["href", "target", "rel"],
-      img: ["src", "alt", "width", "height"],
+      "*": ["class", "style"],
+      a: ["href", "target", "rel", "style"],
+      img: ["src", "alt", "width", "height", "style"],
+      td: ["colspan", "rowspan", "style"],
+      th: ["colspan", "rowspan", "style"],
     },
   });
+
+  const parsedCover = extractFirstImage(post.content || "");
+  let cover = parsedCover || post.images?.[0]?.url || mockArticles[i % mockArticles.length].cover;
+  if (cover && cover.startsWith("//")) {
+    cover = `https:${cover}`;
+  }
+
   return {
     id: post.id,
     blogId,
@@ -48,7 +74,7 @@ const normalize = (post: any, blogId: string, i = 0): Article => {
     published: post.published,
     updated: post.updated,
     url: `/posts/${post.id}`,
-    cover: post.images?.[0]?.url || mockArticles[i % mockArticles.length].cover,
+    cover,
     labels: post.labels || ["Technology"],
     author: { name: post.author?.displayName || "Inzaghi's Blog" },
     views: 0,
@@ -81,9 +107,11 @@ export async function getArticles(query?: string): Promise<Article[]> {
 }
 export async function getArticle(id: string): Promise<Article | undefined> {
   if (id.startsWith("demo-")) return mockArticles.find((a) => a.id === id);
-  for (const blogId of ids()) {
+  const blogIds = ids();
+  for (let i = 0; i < blogIds.length; i++) {
+    const blogId = blogIds[i];
     try {
-      return normalize(await api(`/blogs/${blogId}/posts/${id}`), blogId);
+      return normalize(await api(`/blogs/${blogId}/posts/${id}`), blogId, i);
     } catch {
       /* next blog */
     }

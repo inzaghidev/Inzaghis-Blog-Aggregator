@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Bell, Menu, X, Moon, Search, Sun } from "lucide-react";
+import { Menu, X, Moon, Search, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
@@ -81,11 +81,6 @@ export function Header() {
             className="rounded-lg p-2 text-zinc-500 transition-all duration-200 hover:bg-zinc-100 hover:shadow-sm active:scale-95 dark:hover:bg-zinc-800"
           >
             {dark ? <Sun className="size-4" /> : <Moon className="size-4" />}
-          </button>
-
-          {/* Notification */}
-          <button className="hidden rounded-lg p-2 text-zinc-500 transition-all duration-200 hover:bg-zinc-100 hover:shadow-sm active:scale-95 dark:hover:bg-zinc-800 sm:block">
-            <Bell className="size-4" />
           </button>
 
           {/* Create Post */}

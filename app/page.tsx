@@ -10,7 +10,10 @@ export default async function Home() {
   const hero = articles[0];
   return (
     <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
-      <section className="relative isolate overflow-hidden rounded-2xl bg-zinc-900 text-white">
+      <Link
+        href={`/posts/${hero.id}`}
+        className="group relative isolate block overflow-hidden rounded-2xl bg-zinc-900 text-white"
+      >
         <Image
           src={hero.cover}
           alt=""
@@ -41,7 +44,7 @@ export default async function Home() {
             </span>
           </div>
         </div>
-      </section>
+      </Link>
       <section className="mt-10 grid gap-7 lg:grid-cols-[1fr_290px]">
         <div>
           <div className="mb-5 flex items-center justify-between">

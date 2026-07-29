@@ -20,8 +20,8 @@ export function Footer() {
           </section>
           <br />
           <span className="font-normal text-zinc-500">
-            © 2026 Inzaghi&apos;s Blog., by InzaTech Poshaf Corp. All rights
-            reserved.
+            &copy; 2026 Inzaghi&apos;s Blog., by InzaTech Poshaf Corp. All
+            rights reserved.
           </span>
         </div>
         <nav className="sm:ml-auto flex flex-wrap gap-4 items-center">
