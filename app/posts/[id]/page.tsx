@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Clock, Eye, Link2, Share2 } from "lucide-react";
 import { getArticle, getArticles } from "@/lib/blogger/service";
 import { ArticleCard } from "@/components/articles/article-card";
+import { ArticleContent } from "../../../components/articles/article-content";
 export async function generateMetadata({
   params,
 }: {
@@ -51,7 +51,7 @@ export default async function Post({
             {article.labels[0]} ·{" "}
             {new Date(article.published).toLocaleDateString()}
           </p>
-          <h1 className="mt-3 text-4xl font-extrabold leading-[1.05] tracking-[-.05em] sm:text-5xl">
+          <h1 className="mt-3 text-4xl font-extrabold leading-[1.05] tracking-tighter sm:text-5xl">
             {article.title}
           </h1>
           <div className="mt-6 flex min-w-0 flex-col gap-4 border-y border-zinc-200 py-4 text-xs dark:border-zinc-800 sm:flex-row sm:items-center sm:justify-between">
@@ -60,7 +60,7 @@ export default async function Post({
                 {article.author.name[0]}
               </span>
               <Link href={`/authors/${authorSlug}`} className="group min-w-0">
-                <span className="min-w-0 break-words">
+                <span className="min-w-0 wrap-break-word">
                   <b>{article.author.name}</b>
                   <br />
                   <span className="text-zinc-400">Author & Editor</span>
@@ -72,28 +72,22 @@ export default async function Post({
               {article.views}
             </span>
           </div>
-          <div className="relative mt-7 aspect-[16/9] overflow-hidden rounded-2xl">
-            <Image
-              src={article.cover}
-              alt=""
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 720px"
-            />
-          </div>
-          <div
-            className="article-copy text-[15px]"
-            dangerouslySetInnerHTML={{ __html: article.content }}
-          />
+          <ArticleContent cover={article.cover} html={article.content} />
           <div className="mt-10 flex flex-wrap gap-2">
-            {article.labels.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full bg-zinc-100 px-3 py-1.5 text-[10px] text-zinc-500 dark:bg-zinc-800"
-              >
-                {tag}
-              </span>
-            ))}
+            {article.labels.map((tag) => {
+              const categorySlug = encodeURIComponent(
+                tag.toLowerCase().replace(/\s+/g, "-")
+              );
+              return (
+                <Link
+                  key={tag}
+                  href={`/categories/${categorySlug}`}
+                  className="rounded-full bg-zinc-100 px-3 py-1.5 text-[10px] font-medium text-zinc-600 transition hover:bg-orange-50 hover:text-orange-600 dark:bg-zinc-800 dark:text-zinc-300"
+                >
+                  {tag}
+                </Link>
+              );
+            })}
           </div>
           <section className="paper mt-10 rounded-2xl p-5">
             <b className="text-sm">Join the conversation</b>

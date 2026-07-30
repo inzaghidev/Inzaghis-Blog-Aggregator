@@ -2,12 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock, Sparkles } from "lucide-react";
 import { getArticles } from "@/lib/blogger/service";
-import { ArticleCard } from "@/components/articles/article-card";
+import { ArticleList } from "@/components/articles/article-list";
 import { Sidebar } from "@/components/home/sidebar";
 export const revalidate = 300;
 export default async function Home() {
   const articles = await getArticles();
   const hero = articles[0];
+  const recentArticles = articles.slice(1);
   return (
     <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
       <Link
@@ -56,15 +57,14 @@ export default async function Home() {
               <button className="text-zinc-400">Popular</button>
             </div>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2">
-            {articles.slice(1).map((article, index) => (
-              <ArticleCard
-                key={article.id}
-                article={article}
-                compact={index > 1}
-              />
-            ))}
-          </div>
+
+          <ArticleList
+            articles={recentArticles}
+            pageSize={18}
+            title=""
+            description=""
+          />
+
           <Link
             href="/articles"
             className="mx-auto mt-8 flex w-fit items-center gap-2 rounded-full border border-zinc-200 px-5 py-2.5 text-xs font-semibold text-zinc-600 transition hover:border-orange-500 hover:text-orange-600 dark:border-zinc-800"

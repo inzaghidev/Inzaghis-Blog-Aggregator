@@ -14,7 +14,7 @@ export function Sidebar() {
   return (
     <aside className="space-y-5">
       <section className="paper rounded-2xl p-5">
-        <h2 className="text-xs font-bold tracking-wide">🏷 Trending tags</h2>
+        <h2 className="text-xs font-bold tracking-wide">🏷 Trending Tags</h2>
         <div className="mt-4 flex flex-wrap gap-2">
           {tags.map((t) => (
             <Link
@@ -28,7 +28,7 @@ export function Sidebar() {
         </div>
       </section>
       <section className="paper rounded-2xl p-5">
-        <h2 className="text-xs font-bold tracking-wide">〽 Trending now</h2>
+        <h2 className="text-xs font-bold tracking-wide">〽 Trending Now</h2>
         {[
           "How we migrated 50 services to Kubernetes",
           "The state of frontend development in 2024",

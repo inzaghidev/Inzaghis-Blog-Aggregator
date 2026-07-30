@@ -10,6 +10,87 @@ const names: Record<BlogSource, string> = {
 };
 const sourceFor = (position: number): BlogSource =>
   (["legacy", "teknoblog", "miniblog"] as BlogSource[])[position % 3];
+
+const categoryRules = [
+  {
+    slug: "rumus-rumus",
+    label: "Rumus-rumus",
+    sources: ["legacy", "teknoblog"] as BlogSource[],
+  },
+  {
+    slug: "tekno",
+    label: "Tekno",
+    sources: ["legacy", "teknoblog"] as BlogSource[],
+  },
+  {
+    slug: "berita",
+    label: "Berita",
+    sources: ["legacy", "teknoblog", "miniblog"] as BlogSource[],
+  },
+  {
+    slug: "umum-dan-lain-lain",
+    label: "Umum dan Lain-lain",
+    sources: ["legacy", "teknoblog"] as BlogSource[],
+  },
+  {
+    slug: "artikel-pendek",
+    label: "Artikel Pendek",
+    sources: ["miniblog"] as BlogSource[],
+  },
+  {
+    slug: "vlog",
+    label: "VLOG",
+    sources: ["legacy", "teknoblog", "miniblog"] as BlogSource[],
+  },
+  { slug: "resep", label: "Resep", sources: ["miniblog"] as BlogSource[] },
+  {
+    slug: "doa-dan-ibadah",
+    label: "Doa dan Ibadah",
+    sources: ["miniblog"] as BlogSource[],
+  },
+  {
+    slug: "prompt-ai",
+    label: "Prompt AI",
+    sources: ["miniblog"] as BlogSource[],
+  },
+] as const;
+
+export function normalizeCategoryKey(value: string): string {
+  return value
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "")
+    .trim();
+}
+
+export function isArticleInCategory(
+  article: Article,
+  categorySlug: string,
+): boolean {
+  const normalizedSlug = normalizeCategoryKey(categorySlug);
+  const rule = categoryRules.find(
+    (entry) =>
+      normalizeCategoryKey(entry.slug) === normalizedSlug ||
+      normalizeCategoryKey(entry.label) === normalizedSlug,
+  );
+
+  if (rule) {
+    return (
+      rule.sources.includes(article.source) &&
+      article.labels.some(
+        (label) =>
+          normalizeCategoryKey(label) === normalizeCategoryKey(rule.label),
+      )
+    );
+  }
+
+  return article.labels.some(
+    (label) =>
+      normalizeCategoryKey(label) === normalizedSlug ||
+      normalizeCategoryKey(label).includes(normalizedSlug),
+  );
+}
 const ids = () =>
   (process.env.BLOGGER_BLOG_IDS || "")
     .split(",")
@@ -59,7 +140,10 @@ const normalize = (post: any, blogId: string, i = 0): Article => {
   });
 
   const parsedCover = extractFirstImage(post.content || "");
-  let cover = parsedCover || post.images?.[0]?.url || mockArticles[i % mockArticles.length].cover;
+  let cover =
+    parsedCover ||
+    post.images?.[0]?.url ||
+    mockArticles[i % mockArticles.length].cover;
   if (cover && cover.startsWith("//")) {
     cover = `https:${cover}`;
   }
@@ -92,7 +176,7 @@ export async function getArticles(query?: string): Promise<Article[]> {
       : mockArticles;
   const groups = await Promise.all(
     blogIds.map(async (id, i) => {
-      const data = await api(`/blogs/${id}/posts?maxResults=20`);
+      const data = await api(`/blogs/${id}/posts?maxResults=50`);
       return (data.items || []).map((p: any) => normalize(p, id, i));
     }),
   );
