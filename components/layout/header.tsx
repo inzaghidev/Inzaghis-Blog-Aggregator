@@ -1,21 +1,93 @@
 "use client";
 import Link from "next/link";
 import { Menu, X, Moon, Search, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 export function Header() {
   const [dark, setDark] = useState(false);
   const [open, setOpen] = useState(false);
+  const [mobileSearch, setMobileSearch] = useState(false);
+  const [query, setQuery] = useState("");
   const pathname = usePathname();
+  const router = useRouter();
+  const desktopSearchRef = useRef<HTMLInputElement>(null);
+  const mobileSearchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setDark(document.documentElement.classList.contains("dark"));
+    const savedTheme = window.localStorage.getItem("theme");
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+    const isDark =
+      savedTheme === "dark"
+        ? true
+        : savedTheme === "light"
+          ? false
+          : prefersDark;
+
+    setDark(isDark);
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setQuery(params.get("q") ?? "");
+  }, [pathname]);
+
+  useEffect(() => {
+    const isTypingTarget = (target: EventTarget | null) => {
+      const el = target as HTMLElement | null;
+      if (!el || !el.tagName) return false;
+      const tag = el.tagName.toLowerCase();
+      return tag === "input" || tag === "textarea" || el.isContentEditable;
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        focusSearch();
+      } else if (e.key === "/" && !isTypingTarget(e.target)) {
+        e.preventDefault();
+        focusSearch();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggle = () => {
-    document.documentElement.classList.toggle("dark");
-    setDark((x) => !x);
+    const nextTheme = !dark;
+    setDark(nextTheme);
+
+    if (nextTheme) {
+      document.documentElement.classList.add("dark");
+      window.localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      window.localStorage.setItem("theme", "light");
+    }
+  };
+
+  const focusSearch = () => {
+    if (window.matchMedia("(min-width: 768px)").matches) {
+      desktopSearchRef.current?.focus();
+    } else {
+      setMobileSearch(true);
+      requestAnimationFrame(() => mobileSearchRef.current?.focus());
+    }
+  };
+
+  const submitSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = query.trim();
+    router.push(q ? `/search?q=${encodeURIComponent(q)}` : "/search");
+    setOpen(false);
+    setMobileSearch(false);
   };
 
   const linkClass = (path: string) => {
@@ -38,7 +110,7 @@ export function Header() {
             className="flex items-center gap-2.5 cursor-pointer"
           >
             <img
-              src="/icons/inzaghis-blog-logo-vertical-transparent.png"
+              src={dark ? "/icons/inzaghis-blog-logo-vertical-white-transparent.png" : "/icons/inzaghis-blog-logo-vertical-transparent.png"}
               title="Inzaghi's Blog"
               className="h-10 w-auto max-w-[160px]"
               alt="Inzaghi's Blog"
@@ -62,23 +134,57 @@ export function Header() {
         </nav>
 
         {/* Search (Desktop Only) */}
-        <div className="ml-8 hidden max-w-xs flex-1 items-center rounded-full bg-zinc-100 px-3 py-2 text-xs text-zinc-400 dark:bg-zinc-900 lg:flex">
-          <Search className="mr-2 size-3.5" />
+        <form
+          role="search"
+          onSubmit={submitSearch}
+          className="ml-8 hidden max-w-xs flex-1 items-center rounded-full bg-zinc-100 px-3 py-2 text-xs text-zinc-400 transition focus-within:bg-zinc-50 focus-within:ring-2 focus-within:ring-orange-500/40 dark:bg-zinc-900 dark:focus-within:bg-zinc-800 md:flex"
+        >
+          <Search className="mr-2 size-3.5 shrink-0" />
 
           <input
+            ref={desktopSearchRef}
             aria-label="Search articles"
-            className="w-full bg-transparent outline-none"
+            className="w-full bg-transparent outline-none placeholder:text-zinc-400 dark:placeholder:text-zinc-500"
             placeholder="Search articles..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
           />
-        </div>
+
+          {query ? (
+            <button
+              type="button"
+              aria-label="Clear search"
+              onClick={() => {
+                setQuery("");
+                desktopSearchRef.current?.focus();
+              }}
+              className="ml-1 shrink-0 rounded-full p-0.5 text-zinc-400 transition hover:text-zinc-600 dark:hover:text-zinc-200"
+            >
+              <X className="size-3" />
+            </button>
+          ) : (
+            <kbd className="ml-1 hidden shrink-0 rounded border border-zinc-300 px-1 py-0.5 text-[9px] font-semibold text-zinc-400 dark:border-zinc-700 lg:inline-flex">
+              Ctrl K
+            </kbd>
+          )}
+        </form>
 
         {/* Right Side */}
         <div className="ml-auto flex items-center gap-2">
+          {/* Search (Mobile Only) */}
+          <button
+            aria-label="Toggle search"
+            onClick={() => setMobileSearch(!mobileSearch)}
+            className="rounded-lg p-2 text-zinc-500 transition-all duration-200 hover:bg-zinc-100 hover:shadow-sm active:scale-95 dark:text-zinc-400 dark:hover:bg-zinc-800 md:hidden"
+          >
+            {mobileSearch ? <X className="size-5" /> : <Search className="size-5" />}
+          </button>
+
           {/* Dark Mode */}
           <button
-            aria-label="Toggle dark mode"
+            aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
             onClick={toggle}
-            className="rounded-lg p-2 text-zinc-500 transition-all duration-200 hover:bg-zinc-100 hover:shadow-sm active:scale-95 dark:hover:bg-zinc-800"
+            className="rounded-lg p-2 text-zinc-500 transition-all duration-200 hover:bg-zinc-100 hover:shadow-sm active:scale-95 dark:text-zinc-400 dark:hover:bg-zinc-800"
           >
             {dark ? <Sun className="size-4" /> : <Moon className="size-4" />}
           </button>
@@ -100,6 +206,37 @@ export function Header() {
           </button>
         </div>
       </div>
+
+      {/* Mobile Search */}
+      {mobileSearch && (
+        <div className="border-t border-zinc-200 bg-white px-4 py-3 dark:border-zinc-800 dark:bg-zinc-950 md:hidden">
+          <form onSubmit={submitSearch} role="search">
+            <div className="flex items-center gap-2 rounded-full bg-zinc-100 px-4 py-2.5 dark:bg-zinc-900">
+              <Search className="size-4 shrink-0 text-zinc-400" />
+              <input
+                ref={mobileSearchRef}
+                autoFocus
+                aria-label="Search articles"
+                className="w-full bg-transparent text-sm outline-none placeholder:text-zinc-400 dark:placeholder:text-zinc-500"
+                placeholder="Search articles..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              {query && (
+                <button
+                  type="button"
+                  aria-label="Clear search"
+                  onClick={() => setQuery("")}
+                  className="shrink-0 rounded-full p-0.5 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"
+                >
+                  <X className="size-3.5" />
+                </button>
+              )}
+            </div>
+          </form>
+        </div>
+      )}
+
       {open && (
         <div className="border-t border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 md:hidden">
           <nav className="flex flex-col px-5 py-4 gap-3">

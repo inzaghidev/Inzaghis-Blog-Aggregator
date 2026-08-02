@@ -1,5 +1,10 @@
+import { Metadata } from "next";
 import { getArticles } from "@/lib/blogger/service";
 import { ArticleList } from "@/components/articles/article-list";
+
+export const metadata: Metadata = {
+  title: "Blogs",
+};
 
 export const revalidate = 300;
 
