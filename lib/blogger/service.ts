@@ -96,15 +96,39 @@ const ids = () =>
     .split(",")
     .map((x) => x.trim())
     .filter(Boolean);
-const api = async (path: string) => {
+const wait = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
+const api = async (path: string, attempts = 2): Promise<any> => {
   const key = process.env.BLOGGER_API_KEY;
   if (!key) throw new Error("Blogger API is not configured");
-  const response = await fetch(
-    `https://www.googleapis.com/blogger/v3${path}${path.includes("?") ? "&" : "?"}key=${key}`,
-    { next: { revalidate: 300 } },
-  );
-  if (!response.ok) throw new Error(`Blogger API returned ${response.status}`);
-  return response.json();
+  const url = `https://www.googleapis.com/blogger/v3${path}${path.includes("?") ? "&" : "?"}key=${key}`;
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      const response = await fetch(url, { next: { revalidate: 300 } });
+      if (response.ok) return response.json();
+      const retryable = response.status === 429 || response.status >= 500;
+      if (attempt < attempts && retryable) {
+        await wait(attempt * 400);
+        continue;
+      }
+      throw new Error(`Blogger API returned ${response.status}`);
+    } catch (error) {
+      if (attempt < attempts) {
+        await wait(attempt * 400);
+        continue;
+      }
+      throw error;
+    }
+  }
+};
+
+const safeApi = async (path: string): Promise<any> => {
+  try {
+    return await api(path);
+  } catch {
+    return null;
+  }
 };
 const extractFirstImage = (content: string): string | null => {
   if (!content) return null;
@@ -176,18 +200,19 @@ export async function getArticles(query?: string): Promise<Article[]> {
       : mockArticles;
   const groups = await Promise.all(
     blogIds.map(async (id, i) => {
-      const data = await api(`/blogs/${id}/posts?maxResults=50`);
-      return (data.items || []).map((p: any) => normalize(p, id, i));
+      const data = await safeApi(`/blogs/${id}/posts?maxResults=50`);
+      return (data?.items || []).map((p: any) => normalize(p, id, i));
     }),
   );
   const results = groups
     .flat()
     .sort((a, b) => +new Date(b.published) - +new Date(a.published));
+  const source = results.length ? results : mockArticles;
   return query
-    ? results.filter((a) =>
+    ? source.filter((a) =>
         `${a.title} ${a.excerpt}`.toLowerCase().includes(query.toLowerCase()),
       )
-    : results;
+    : source;
 }
 export async function getArticle(id: string): Promise<Article | undefined> {
   if (id.startsWith("demo-")) return mockArticles.find((a) => a.id === id);
@@ -204,13 +229,14 @@ export async function getArticle(id: string): Promise<Article | undefined> {
 }
 export async function getBlogs(): Promise<Blog[]> {
   const blogIds = ids();
-  if (!blogIds.length)
-    return (["legacy", "teknoblog", "miniblog"] as BlogSource[]).map(
-      (source, i) => ({ id: `demo-${i}`, source, name: names[source] }),
-    );
-  return Promise.all(
-    blogIds.map(async (id, i) => {
-      const data = await api(`/blogs/${id}`);
+  const demoBlogs = (["legacy", "teknoblog", "miniblog"] as BlogSource[]).map(
+    (source, i) => ({ id: `demo-${i}`, source, name: names[source] }),
+  );
+  if (!blogIds.length) return demoBlogs;
+  const blogs = await Promise.all(
+    blogIds.map(async (id, i): Promise<Blog | null> => {
+      const data = await safeApi(`/blogs/${id}`);
+      if (!data) return null;
       return {
         id,
         source: sourceFor(i),
@@ -220,4 +246,6 @@ export async function getBlogs(): Promise<Blog[]> {
       };
     }),
   );
+  const real = blogs.filter((blog): blog is Blog => blog !== null);
+  return real.length ? real : demoBlogs;
 }
