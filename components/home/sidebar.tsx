@@ -1,50 +1,54 @@
 import Link from "next/link";
 import { ArrowUpRight, Mail } from "lucide-react";
-const tags = [
-  "#javascript",
-  "#react",
-  "#rustlang",
-  "#nextjs",
-  "#docker",
-  "#systemdesign",
-  "#ai",
-  "#css",
+import { getArticles } from "@/lib/blogger/service";
+
+const categories = [
+  { slug: "rumus-rumus", label: "Rumus-rumus" },
+  { slug: "tekno", label: "Tekno" },
+  { slug: "berita", label: "Berita" },
+  { slug: "kode-program", label: "Kode Program" },
+  { slug: "prompt-ai", label: "Prompt AI" },
+  { slug: "vlog", label: "VLOG" },
+  { slug: "resep", label: "Resep" },
+  { slug: "doa-dan-ibadah", label: "Doa dan Ibadah" },
 ];
-export function Sidebar() {
+
+export async function Sidebar() {
+  const articles = await getArticles();
+  const popularPosts = articles.slice(0, 3);
+
   return (
     <aside className="space-y-5">
       <section className="paper rounded-2xl p-5">
-        <h2 className="text-xs font-bold tracking-wide">🏷 Trending Tags</h2>
+        <h2 className="text-xs font-bold tracking-wide">🏷 Categories</h2>
         <div className="mt-4 flex flex-wrap gap-2">
-          {tags.map((t) => (
+          {categories.map((c) => (
             <Link
-              href={`/categories/${t.slice(1)}`}
-              key={t}
-              className="rounded-full bg-zinc-100 px-2.5 py-1 text-[10px] text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+              href={`/categories/${c.slug}`}
+              key={c.slug}
+              className="rounded-full bg-zinc-100 px-2.5 py-1 text-[10px] text-zinc-600 transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
             >
-              {t}
+              {c.label}
             </Link>
           ))}
         </div>
       </section>
       <section className="paper rounded-2xl p-5">
-        <h2 className="text-xs font-bold tracking-wide">〽 Trending Now</h2>
-        {[
-          "How we migrated 50 services to Kubernetes",
-          "The state of frontend development in 2024",
-          "Why I&apos;m leaving the cloud",
-        ].map((post, i) => (
-          <div key={post} className="mt-4 flex gap-3">
-            <span className="text-3xl font-bold leading-none text-zinc-200 dark:text-zinc-700">
+        <h2 className="text-xs font-bold tracking-wide">〽 Popular Posts</h2>
+        {popularPosts.map((post, i) => (
+          <Link href={post.url} key={post.id} className="group mt-4 flex gap-3 block">
+            <span className="text-3xl font-bold leading-none text-zinc-200 transition-colors group-hover:text-orange-500 dark:text-zinc-700">
               0{i + 1}
             </span>
             <div>
-              <p className="text-xs font-semibold leading-snug">{post}</p>
+              <p className="line-clamp-2 text-xs font-semibold leading-snug transition-colors group-hover:text-orange-500">
+                {post.title}
+              </p>
               <p className="mt-1 text-[10px] text-zinc-400">
                 {i + 3}.2k reads · {i + 2} comments
               </p>
             </div>
-          </div>
+          </Link>
         ))}
       </section>
       <section className="rounded-2xl bg-gradient-to-br from-orange-500 to-orange-700 p-5 text-white shadow-lg shadow-orange-500/20">
