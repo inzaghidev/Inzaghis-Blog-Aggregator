@@ -110,8 +110,12 @@ export function Header() {
             className="flex items-center gap-2.5 cursor-pointer"
           >
             <img
-              src={dark ? "/icons/inzaghis-blog-logo-vertical-white-transparent.png" : "/icons/inzaghis-blog-logo-vertical-transparent.png"}
-              title="Inzaghi's Blog"
+              src={
+                dark
+                  ? "/icons/inzaghis-blog-logo-dengan-hut-ri-81-putih.png"
+                  : "/icons/inzaghis-blog-logo-dengan-hut-ri-81.png"
+              }
+              title="Inzaghi's Blog | Dirgahayu Republik Indonesia! #81"
               className="h-10 w-auto max-w-[160px]"
               alt="Inzaghi's Blog"
             />
@@ -177,7 +181,11 @@ export function Header() {
             onClick={() => setMobileSearch(!mobileSearch)}
             className="rounded-lg p-2 text-zinc-500 transition-all duration-200 hover:bg-zinc-100 hover:shadow-sm active:scale-95 dark:text-zinc-400 dark:hover:bg-zinc-800 md:hidden"
           >
-            {mobileSearch ? <X className="size-5" /> : <Search className="size-5" />}
+            {mobileSearch ? (
+              <X className="size-5" />
+            ) : (
+              <Search className="size-5" />
+            )}
           </button>
 
           {/* Dark Mode */}

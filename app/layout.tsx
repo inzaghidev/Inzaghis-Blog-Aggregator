@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: "%s | Inzaghi's Blog",
   },
   description:
-    "A modern developer and technology publication, curated from Inzaghi's Blog, Teknoblog, and Miniblog.",
+    "An Inzaghi's Blog Aggregator that aggregates content from Inzaghi's Blog Legacy, Teknoblog and Miniblog.",
   viewport: {
     width: "device-width",
     initialScale: 1,
@@ -22,8 +22,15 @@ export const metadata: Metadata = {
     shortcut: "/icons/inzaghis-blog-36x36.png",
     apple: "/icons/inzaghis-blog-36x36.png",
   },
-  openGraph: { type: "website", siteName: "Inzaghi's Blog", locale: "en_US" },
+  openGraph: {
+    type: "website",
+    siteName: "Inzaghi's Blog",
+    locale: "en_US, en_GB, id_ID",
+  },
   twitter: { card: "summary_large_image" },
+  verification: {
+    google: "0U4PwP14dUkc0abyH0LHWr1H2_z0dlGpcR_tgM0K5ks",
+  },
 };
 export default function RootLayout({
   children,
