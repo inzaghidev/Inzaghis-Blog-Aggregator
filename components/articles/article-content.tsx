@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ArticleContentProps {
   cover: string;
@@ -22,6 +22,20 @@ const isImageUrl = (url: string): boolean => {
 
 export function ArticleContent({ cover, html }: ArticleContentProps) {
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
+  const copyRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const root = copyRef.current;
+    if (!root) return;
+    root.querySelectorAll("iframe").forEach((frame) => {
+      const w = parseFloat(frame.getAttribute("width") || "");
+      const h = parseFloat(frame.getAttribute("height") || "");
+      if (w > 0 && h > 0) {
+        frame.style.aspectRatio = `${w} / ${h}`;
+        frame.style.maxWidth = "100%";
+      }
+    });
+  }, [html]);
 
   return (
     <>
@@ -37,6 +51,7 @@ export function ArticleContent({ cover, html }: ArticleContentProps) {
       </div>
 
       <div
+        ref={copyRef}
         className="article-copy text-[15px]"
         dangerouslySetInnerHTML={{ __html: html }}
         onClick={(event) => {
