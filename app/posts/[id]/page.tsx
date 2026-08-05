@@ -59,12 +59,10 @@ export default async function Post({
               <span className="grid size-9 place-items-center rounded-full bg-orange-500 font-bold text-white">
                 {article.author.name[0]}
               </span>
-              <Link href={`/authors/${authorSlug}`} className="group min-w-0">
-                <span className="min-w-0 wrap-break-word">
-                  <b>{article.author.name}</b>
-                  <br />
-                  <span className="text-zinc-400">Author & Editor</span>
-                </span>
+              <Link href={`/authors/${authorSlug}`} className="hover:underline">
+                <b>{article.author.name}</b>
+                <br />
+                <span className="text-zinc-400">Author & Editor</span>
               </Link>
             </div>
             <span className="flex min-w-0 items-center gap-3 text-zinc-500">

@@ -98,7 +98,13 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-black/5 bg-white/80 backdrop-blur-xl dark:border-white/8 dark:bg-[#0b0b0c]/80">
+    <header
+      className={
+        dark
+          ? "sticky top-0 z-40 border-b border-black/5 bg-white/80 backdrop-blur-xl dark:bg-[#0b0b0c]/80"
+          : "sticky top-0 z-40 border-b border-black/5 bg-white/80 backdrop-blur-xl dark:border-white/8"
+      }
+    >
       <div className="mx-auto flex h-16 max-w-7xl items-center px-4 sm:px-6">
         {/* Logo */}
         <Link

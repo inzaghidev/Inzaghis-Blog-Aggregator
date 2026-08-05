@@ -105,7 +105,19 @@ export function ArticleList({
                 : "border-[#b58c42] text-[#b58c42] hover:bg-[#b58c42]/10"
             }`}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
           </button>
 
           {(() => {
@@ -116,16 +128,34 @@ export function ArticleList({
               if (page <= 3) {
                 pages.push(1, 2, 3, 4, "...", totalPages);
               } else if (page >= totalPages - 2) {
-                pages.push(1, "...", totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+                pages.push(
+                  1,
+                  "...",
+                  totalPages - 3,
+                  totalPages - 2,
+                  totalPages - 1,
+                  totalPages,
+                );
               } else {
-                pages.push(1, "...", page - 1, page, page + 1, "...", totalPages);
+                pages.push(
+                  1,
+                  "...",
+                  page - 1,
+                  page,
+                  page + 1,
+                  "...",
+                  totalPages,
+                );
               }
             }
 
             return pages.map((p, idx) => {
               if (p === "...") {
                 return (
-                  <span key={`ellipsis-${idx}`} className="flex size-10 items-center justify-center text-blue-900">
+                  <span
+                    key={`ellipsis-${idx}`}
+                    className="flex size-10 items-center justify-center text-blue-900 dark:text-zinc-200"
+                  >
                     ...
                   </span>
                 );
@@ -138,7 +168,7 @@ export function ArticleList({
                   className={`flex size-10 items-center justify-center rounded-full transition-all ${
                     isCurrent
                       ? "bg-orange-500 text-white font-bold"
-                      : "border border-[#d6dbe0] text-[#1e3a8a] hover:border-orange-300 hover:text-orange-300"
+                      : "border border-[#d6dbe0] dark:border-zinc-500 text-[#1e3a8a] dark:text-zinc-100 hover:border-orange-300 hover:text-orange-300 dark:hover:border-orange-400 dark:hover:text-orange-400"
                   }`}
                 >
                   {p}
@@ -148,7 +178,9 @@ export function ArticleList({
           })()}
 
           <button
-            onClick={() => setPage((current) => Math.min(totalPages, current + 1))}
+            onClick={() =>
+              setPage((current) => Math.min(totalPages, current + 1))
+            }
             disabled={page === totalPages}
             className={`flex size-10 items-center justify-center rounded-full border transition-all ${
               page === totalPages
@@ -156,7 +188,19 @@ export function ArticleList({
                 : "border-orange-500 text-orange-500 hover:bg-orange-500/10"
             }`}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
           </button>
         </nav>
       ) : null}

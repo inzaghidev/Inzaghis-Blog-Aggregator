@@ -67,7 +67,7 @@ export default async function Home() {
 
           <Link
             href="/articles"
-            className="mx-auto mt-8 flex w-fit items-center gap-2 rounded-full border border-zinc-200 px-5 py-2.5 text-xs font-semibold text-zinc-600 transition hover:border-orange-500 hover:text-orange-600 dark:border-zinc-800"
+            className="mx-auto mt-8 flex w-fit items-center gap-2 rounded-full border border border-[#d6dbe0] px-5 py-2.5 text-xs font-semibold text-zinc-600 transition hover:border-orange-500 hover:text-orange-600 dark:border-zinc-500"
           >
             Explore all stories <ArrowRight className="size-3" />
           </Link>
