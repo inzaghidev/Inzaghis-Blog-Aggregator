@@ -13,6 +13,36 @@ const sourceFor = (position: number): BlogSource =>
 
 const categoryRules = [
   {
+    slug: "agama",
+    label: "Agama",
+    sources: ["legacy", "teknoblog"] as BlogSource[],
+  },
+  {
+    slug: "berita",
+    label: "Berita",
+    sources: ["legacy", "teknoblog", "miniblog"] as BlogSource[],
+  },
+  {
+    slug: "campus-life",
+    label: "Campus Life",
+    sources: ["legacy", "teknoblog"] as BlogSource[],
+  },
+  {
+    slug: "careers",
+    label: "Careers",
+    sources: ["legacy", "teknoblog"] as BlogSource[],
+  },
+  {
+    slug: "doa-dan-ibadah",
+    label: "Doa dan Ibadah",
+    sources: ["miniblog"] as BlogSource[],
+  },
+  {
+    slug: "edukasi",
+    label: "Edukasi",
+    sources: ["legacy", "teknoblog"] as BlogSource[],
+  },
+  {
     slug: "rumus-rumus",
     label: "Rumus-rumus",
     sources: ["legacy", "teknoblog"] as BlogSource[],
@@ -21,11 +51,6 @@ const categoryRules = [
     slug: "tekno",
     label: "Tekno",
     sources: ["legacy", "teknoblog"] as BlogSource[],
-  },
-  {
-    slug: "berita",
-    label: "Berita",
-    sources: ["legacy", "teknoblog", "miniblog"] as BlogSource[],
   },
   {
     slug: "umum-dan-lain-lain",
@@ -43,11 +68,6 @@ const categoryRules = [
     sources: ["legacy", "teknoblog", "miniblog"] as BlogSource[],
   },
   { slug: "resep", label: "Resep", sources: ["miniblog"] as BlogSource[] },
-  {
-    slug: "doa-dan-ibadah",
-    label: "Doa dan Ibadah",
-    sources: ["miniblog"] as BlogSource[],
-  },
   {
     slug: "prompt-ai",
     label: "Prompt AI",
@@ -96,8 +116,7 @@ const ids = () =>
     .split(",")
     .map((x) => x.trim())
     .filter(Boolean);
-const wait = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const api = async (path: string, attempts = 2): Promise<any> => {
   const key = process.env.BLOGGER_API_KEY;
@@ -129,6 +148,37 @@ const safeApi = async (path: string): Promise<any> => {
   } catch {
     return null;
   }
+};
+
+const MAX_RESULTS = (() => {
+  const raw = process.env.BLOGGER_MAX_RESULTS;
+  if (raw === "0" || raw === "all") return Number.POSITIVE_INFINITY;
+  const value = Number(raw);
+  return Number.isFinite(value) && value > 0 ? Math.floor(value) : 100;
+})();
+
+const fetchBlogPosts = async (
+  blogId: string,
+  position: number,
+): Promise<Article[]> => {
+  const articles: Article[] = [];
+  let pageToken = "";
+  do {
+    const pageSize = Math.min(500, MAX_RESULTS - articles.length);
+    const params = new URLSearchParams({
+      maxResults: String(pageSize),
+      fetchImages: "true",
+      fetchBodies: "false",
+    });
+    if (pageToken) params.set("pageToken", pageToken);
+    const data = await safeApi(`/blogs/${blogId}/posts?${params.toString()}`);
+    if (!data) break;
+    articles.push(
+      ...(data.items || []).map((p: any) => normalize(p, blogId, position)),
+    );
+    pageToken = data.nextPageToken || "";
+  } while (pageToken && articles.length < MAX_RESULTS);
+  return articles;
 };
 const extractFirstImage = (content: string): string | null => {
   if (!content) return null;
@@ -205,13 +255,16 @@ const normalize = (post: any, blogId: string, i = 0): Article => {
     cover = `https:${cover}`;
   }
 
+  const bodyExcerpt = excerpt(content);
+  const summary = typeof post.summary === "string" ? post.summary.trim() : "";
+
   return {
     id: post.id,
     blogId,
     source: sourceFor(i),
     title: post.title,
     content,
-    excerpt: excerpt(content),
+    excerpt: bodyExcerpt || summary || "",
     published: post.published,
     updated: post.updated,
     url: `/posts/${post.id}`,
@@ -232,10 +285,7 @@ export async function getArticles(query?: string): Promise<Article[]> {
         )
       : mockArticles;
   const groups = await Promise.all(
-    blogIds.map(async (id, i) => {
-      const data = await safeApi(`/blogs/${id}/posts?maxResults=50`);
-      return (data?.items || []).map((p: any) => normalize(p, id, i));
-    }),
+    blogIds.map((id, i) => fetchBlogPosts(id, i)),
   );
   const results = groups
     .flat()

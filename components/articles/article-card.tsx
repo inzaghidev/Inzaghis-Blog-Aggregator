@@ -35,9 +35,11 @@ export function ArticleCard({
           <h3 className="line-clamp-2 text-lg font-bold leading-tight tracking-tight">
             {article.title}
           </h3>
-          <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-zinc-500">
-            {article.excerpt}
-          </p>
+          {article.excerpt ? (
+            <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-zinc-500">
+              {article.excerpt}
+            </p>
+          ) : null}
           <div className="mt-5 flex items-center justify-between border-t border-zinc-100 pt-3 text-[10px] text-zinc-400 dark:border-zinc-800">
             <span>
               {article.author.name} · {article.views?.toLocaleString("en-US")} views

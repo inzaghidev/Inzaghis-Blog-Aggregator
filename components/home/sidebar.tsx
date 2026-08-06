@@ -1,21 +1,24 @@
 import Link from "next/link";
-import { ArrowUpRight, Mail } from "lucide-react";
+import { ArrowRight, ArrowUpRight, LinkIcon, Mail } from "lucide-react";
 import { getArticles } from "@/lib/blogger/service";
 
 const categories = [
-  { slug: "rumus-rumus", label: "Rumus-rumus" },
-  { slug: "tekno", label: "Tekno" },
   { slug: "berita", label: "Berita" },
+  { slug: "campus-life", label: "Campus Life" },
+  { slug: "careers", label: "Careers" },
+  { slug: "doa-dan-ibadah", label: "Doa dan Ibadah" },
+  { slug: "edukasi", label: "Edukasi" },
   { slug: "kode-program", label: "Kode Program" },
   { slug: "prompt-ai", label: "Prompt AI" },
-  { slug: "vlog", label: "VLOG" },
+  { slug: "rumus-rumus", label: "Rumus-rumus" },
   { slug: "resep", label: "Resep" },
-  { slug: "doa-dan-ibadah", label: "Doa dan Ibadah" },
+  { slug: "tekno", label: "Tekno" },
+  { slug: "vlog", label: "VLOG" },
 ];
 
 export async function Sidebar() {
   const articles = await getArticles();
-  const popularPosts = articles.slice(0, 3);
+  const popularPosts = articles.slice(0, 5);
 
   return (
     <aside className="space-y-5">
@@ -36,7 +39,11 @@ export async function Sidebar() {
       <section className="paper rounded-2xl p-5">
         <h2 className="text-xs font-bold tracking-wide">〽 Popular Posts</h2>
         {popularPosts.map((post, i) => (
-          <Link href={post.url} key={post.id} className="group mt-4 flex gap-3 block">
+          <Link
+            href={post.url}
+            key={post.id}
+            className="group mt-4 flex gap-3 block"
+          >
             <span className="text-3xl font-bold leading-none text-zinc-200 transition-colors group-hover:text-orange-500 dark:text-zinc-700">
               0{i + 1}
             </span>
@@ -52,19 +59,42 @@ export async function Sidebar() {
         ))}
       </section>
       <section className="rounded-2xl bg-gradient-to-br from-orange-500 to-orange-700 p-5 text-white shadow-lg shadow-orange-500/20">
-        <Mail className="size-5" />
-        <h2 className="mt-3 text-sm font-bold">Inzaghi&apos;s Blog Weekly</h2>
+        <LinkIcon className="size-5" />
+        <h2 className="mt-3 text-md font-bold">Inzaghi&apos;s Blog Links</h2>
         <p className="mt-2 text-xs leading-relaxed text-orange-100">
-          The best technical articles, delivered straight to your inbox every
-          Monday.
+          The best way to stay updated with the latest posts and articles from
+          Inzaghi&apos;s Blog, such as an Inzaghi's Blog Legacy, Teknoblog, and
+          Miniblog.
         </p>
-        <input
-          className="mt-4 w-full rounded-lg bg-white/15 px-3 py-2 text-xs outline-none placeholder:text-orange-100"
-          placeholder="email@example.com"
-        />
-        <button className="mt-2 w-full rounded-lg bg-white px-3 py-2 text-xs font-bold text-orange-600">
-          Subscribe now <ArrowUpRight className="inline size-3" />
-        </button>
+        <label className="mt-3 text-sm font-bold">Inzaghi's Blog Legacy</label>
+        <br className="my-1 block border-zinc-200 dark:border-zinc-700" />
+        <Link
+          href="https://inzaghiposuma.blogspot.com"
+          target="_blank"
+          className="mt-2 w-full rounded-lg bg-white px-3 py-2 text-xs font-bold text-orange-600 inline-block"
+        >
+          inzaghiposuma.blogspot.com <ArrowRight className="inline size-3" />
+        </Link>
+        <br className="my-3 block border-zinc-200 dark:border-zinc-700" />
+        <label className="mt-3 text-sm font-bold">Teknoblog</label>
+        <br className="my-1 block border-zinc-200 dark:border-zinc-700" />
+        <Link
+          href="https://enzatech.blogspot.com"
+          target="_blank"
+          className="mt-2 w-full rounded-lg bg-white px-3 py-2 text-xs font-bold text-orange-600 inline-block"
+        >
+          enzatech.blogspot.com <ArrowRight className="inline size-3" />
+        </Link>
+        <br className="my-3 block border-zinc-200 dark:border-zinc-700" />
+        <label className="mt-3 text-sm font-bold">Miniblog</label>
+        <br className="my-1 block border-zinc-200 dark:border-zinc-700" />
+        <Link
+          href="https://enzashorts.blogspot.com"
+          target="_blank"
+          className="mt-2 w-full rounded-lg bg-white px-3 py-2 text-xs font-bold text-orange-600 inline-block"
+        >
+          enzashorts.blogspot.com <ArrowRight className="inline size-3" />
+        </Link>
       </section>
     </aside>
   );

@@ -272,9 +272,11 @@ export function SearchClient({
                     <h3 className="mt-1.5 line-clamp-2 text-base font-bold tracking-tight text-zinc-900 dark:text-white">
                       <Highlight text={article.title} query={trimmedQuery} />
                     </h3>
-                    <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-zinc-500">
-                      <Highlight text={article.excerpt} query={trimmedQuery} />
-                    </p>
+                    {article.excerpt ? (
+                      <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-zinc-500">
+                        <Highlight text={article.excerpt} query={trimmedQuery} />
+                      </p>
+                    ) : null}
                     <div className="mt-2 flex flex-wrap gap-1.5">
                       {article.labels.slice(0, 3).map((label) => (
                         <span

@@ -31,9 +31,11 @@ export default async function Home() {
           <h1 className="mt-4 text-3xl font-extrabold leading-[1.04] tracking-[-.05em] sm:text-5xl">
             {hero.title}
           </h1>
-          <p className="mt-4 max-w-lg text-sm leading-relaxed text-zinc-200">
-            {hero.excerpt}
-          </p>
+          {hero.excerpt ? (
+            <p className="mt-4 max-w-lg text-sm leading-relaxed text-zinc-200">
+              {hero.excerpt}
+            </p>
+          ) : null}
           <div className="mt-6 flex items-center gap-4 text-xs text-zinc-200">
             <span className="grid size-7 place-items-center rounded-full bg-orange-500 font-bold">
               {hero.author.name[0]}
