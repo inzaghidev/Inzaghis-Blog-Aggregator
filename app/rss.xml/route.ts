@@ -7,7 +7,7 @@ export async function GET() {
       <channel>
         <title>Inzaghi's Blog</title>
         <link>${base}</link>
-        <description>Ideas worth building.</description>
+        <description>All Posts in Inzaghi's Blog.</description>
         ${posts.map((p) => `<item><title><![CDATA[${p.title}]]></title><link>${base}${p.url}</link><guid>${p.id}</guid><pubDate>${new Date(p.published).toUTCString()}</pubDate><description><![CDATA[${p.excerpt}]]></description></item>`).join("")}
       </channel>
     </rss>`;

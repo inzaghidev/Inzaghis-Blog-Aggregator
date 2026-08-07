@@ -1,5 +1,5 @@
 import { getArticles } from "@/lib/blogger/service";
-import { ArticleCard } from "@/components/articles/article-card";
+import { ArticleList } from "@/components/articles/article-list";
 export default async function Articles({
   searchParams,
 }: {
@@ -10,10 +10,10 @@ export default async function Articles({
   return (
     <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
       <p className="text-xs font-bold uppercase tracking-wider text-orange-500">
-        All stories
+        All Posts
       </p>
       <h1 className="mt-2 text-4xl font-extrabold tracking-tight">
-        {q ? `Results for “${q}”` : "Ideas worth building"}
+        {q ? `Results for “${q}”` : "All Posts in Inzaghi's Blog"}
       </h1>
       <form className="mt-7">
         <input
@@ -23,14 +23,13 @@ export default async function Articles({
           className="w-full max-w-lg rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm outline-none focus:border-orange-500 dark:border-zinc-800 dark:bg-zinc-900"
         />
       </form>
-      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {articles.map((a) => (
-          <ArticleCard key={a.id} article={a} />
-        ))}
-      </div>
-      {!articles.length && (
-        <p className="mt-12 text-zinc-500">No stories matched your search.</p>
-      )}
+      <ArticleList
+        articles={articles}
+        pageSize={18}
+        title=""
+        description=""
+        initialPage={q ? 1 : 2}
+      />
     </main>
   );
 }

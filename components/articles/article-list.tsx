@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ArticleCard } from "@/components/articles/article-card";
 import type { Article } from "@/lib/blogger/types";
 
@@ -10,6 +10,8 @@ interface ArticleListProps {
   title?: string;
   description?: string;
   filterSources?: { value: string; label: string }[];
+  showPagination?: boolean;
+  initialPage?: number;
 }
 
 export function ArticleList({
@@ -18,13 +20,20 @@ export function ArticleList({
   title,
   description,
   filterSources,
+  showPagination = true,
+  initialPage = 1,
 }: ArticleListProps) {
   const [filter, setFilter] = useState<string>("all");
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(initialPage);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     setPage(1);
-  }, [filter, articles.length]);
+  }, [filter, articles]);
 
   const filteredArticles = useMemo(() => {
     if (!filter || filter === "all") return articles;
@@ -32,9 +41,10 @@ export function ArticleList({
   }, [articles, filter]);
 
   const totalPages = Math.max(1, Math.ceil(filteredArticles.length / pageSize));
+  const safePage = Math.min(Math.max(1, page), totalPages);
   const paginatedArticles = filteredArticles.slice(
-    (page - 1) * pageSize,
-    page * pageSize,
+    (safePage - 1) * pageSize,
+    safePage * pageSize,
   );
 
   return (
@@ -94,13 +104,13 @@ export function ArticleList({
         </div>
       )}
 
-      {totalPages > 1 ? (
+      {showPagination && totalPages > 1 ? (
         <nav className="mt-12 flex items-center justify-center gap-2 text-sm font-medium">
           <button
             onClick={() => setPage((current) => Math.max(1, current - 1))}
-            disabled={page === 1}
+            disabled={safePage === 1}
             className={`flex size-10 items-center justify-center rounded-full border transition-all ${
-              page === 1
+              safePage === 1
                 ? "border-slate-200 text-slate-400 cursor-not-allowed"
                 : "border-[#b58c42] text-[#b58c42] hover:bg-[#b58c42]/10"
             }`}
@@ -125,9 +135,9 @@ export function ArticleList({
             if (totalPages <= 7) {
               for (let i = 1; i <= totalPages; i++) pages.push(i);
             } else {
-              if (page <= 3) {
+              if (safePage <= 3) {
                 pages.push(1, 2, 3, 4, "...", totalPages);
-              } else if (page >= totalPages - 2) {
+              } else if (safePage >= totalPages - 2) {
                 pages.push(
                   1,
                   "...",
@@ -140,9 +150,9 @@ export function ArticleList({
                 pages.push(
                   1,
                   "...",
-                  page - 1,
-                  page,
-                  page + 1,
+                  safePage - 1,
+                  safePage,
+                  safePage + 1,
                   "...",
                   totalPages,
                 );
@@ -160,7 +170,7 @@ export function ArticleList({
                   </span>
                 );
               }
-              const isCurrent = p === page;
+              const isCurrent = p === safePage;
               return (
                 <button
                   key={p}
@@ -181,9 +191,9 @@ export function ArticleList({
             onClick={() =>
               setPage((current) => Math.min(totalPages, current + 1))
             }
-            disabled={page === totalPages}
+            disabled={safePage === totalPages}
             className={`flex size-10 items-center justify-center rounded-full border transition-all ${
-              page === totalPages
+              safePage === totalPages
                 ? "border-slate-200 text-slate-400 cursor-not-allowed"
                 : "border-orange-500 text-orange-500 hover:bg-orange-500/10"
             }`}

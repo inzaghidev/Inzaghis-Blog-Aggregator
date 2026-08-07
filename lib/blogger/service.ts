@@ -168,13 +168,14 @@ const fetchBlogPosts = async (
     const params = new URLSearchParams({
       maxResults: String(pageSize),
       fetchImages: "true",
-      fetchBodies: "false",
     });
     if (pageToken) params.set("pageToken", pageToken);
     const data = await safeApi(`/blogs/${blogId}/posts?${params.toString()}`);
     if (!data) break;
     articles.push(
-      ...(data.items || []).map((p: any) => normalize(p, blogId, position)),
+      ...(data.items || []).map((p: any) =>
+        normalize(p, blogId, position, false),
+      ),
     );
     pageToken = data.nextPageToken || "";
   } while (pageToken && articles.length < MAX_RESULTS);
@@ -186,67 +187,84 @@ const extractFirstImage = (content: string): string | null => {
   return match ? match[1] : null;
 };
 
-const normalize = (post: any, blogId: string, i = 0): Article => {
-  const content = sanitizeHtml(post.content || "", {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat([
-      "img",
-      "pre",
-      "code",
-      "table",
-      "thead",
-      "tbody",
-      "tr",
-      "th",
-      "td",
-      "caption",
-      "figure",
-      "figcaption",
-      "div",
-      "span",
-      "iframe",
-      "video",
-      "embed",
-      "object",
-      "source",
-    ]),
-    allowedAttributes: {
-      "*": ["class", "style"],
-      a: ["href", "target", "rel", "style"],
-      img: ["src", "alt", "width", "height", "style"],
-      iframe: [
-        "src",
-        "title",
-        "width",
-        "height",
-        "allow",
-        "allowfullscreen",
-        "frameborder",
-        "scrolling",
-        "loading",
-        "referrerpolicy",
-        "allowtransparency",
-      ],
-      video: [
-        "src",
-        "poster",
-        "controls",
-        "autoplay",
-        "loop",
-        "muted",
-        "playsinline",
-        "width",
-        "height",
-        "style",
-      ],
-      embed: ["src", "type", "width", "height", "style"],
-      object: ["data", "type", "width", "height", "style"],
-      source: ["src", "type"],
-      td: ["colspan", "rowspan", "style"],
-      th: ["colspan", "rowspan", "style"],
-    },
-  });
+const sanitizeOptions = {
+  allowedTags: sanitizeHtml.defaults.allowedTags.concat([
+    "img",
+    "pre",
+    "code",
+    "table",
+    "thead",
+    "tbody",
+    "tr",
+    "th",
+    "td",
+    "caption",
+    "figure",
+    "figcaption",
+    "div",
+    "span",
+    "iframe",
+    "video",
+    "embed",
+    "object",
+    "source",
+  ]),
+  allowedAttributes: {
+    "*": ["class", "style"],
+    a: ["href", "target", "rel", "style"],
+    img: ["src", "alt", "width", "height", "style"],
+    iframe: [
+      "src",
+      "title",
+      "width",
+      "height",
+      "allow",
+      "allowfullscreen",
+      "frameborder",
+      "scrolling",
+      "loading",
+      "referrerpolicy",
+      "allowtransparency",
+    ],
+    video: [
+      "src",
+      "poster",
+      "controls",
+      "autoplay",
+      "loop",
+      "muted",
+      "playsinline",
+      "width",
+      "height",
+      "style",
+    ],
+    embed: ["src", "type", "width", "height", "style"],
+    object: ["data", "type", "width", "height", "style"],
+    source: ["src", "type"],
+    td: ["colspan", "rowspan", "style"],
+    th: ["colspan", "rowspan", "style"],
+  },
+};
 
-  const parsedCover = extractFirstImage(post.content || "");
+const plainExcerpt = (html: string, max = 150): string => {
+  const text = html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return text.length > max ? `${text.slice(0, max).trim()}…` : text;
+};
+
+const normalize = (
+  post: any,
+  blogId: string,
+  i = 0,
+  includeContent = true,
+): Article => {
+  const raw = post.content || "";
+  const content = includeContent ? sanitizeHtml(raw, sanitizeOptions) : "";
+  const parsedCover = extractFirstImage(raw);
   let cover =
     parsedCover ||
     post.images?.[0]?.url ||
@@ -255,7 +273,7 @@ const normalize = (post: any, blogId: string, i = 0): Article => {
     cover = `https:${cover}`;
   }
 
-  const bodyExcerpt = excerpt(content);
+  const bodyExcerpt = includeContent ? excerpt(content) : plainExcerpt(raw);
   const summary = typeof post.summary === "string" ? post.summary.trim() : "";
 
   return {
@@ -276,21 +294,26 @@ const normalize = (post: any, blogId: string, i = 0): Article => {
   };
 };
 
-export async function getArticles(query?: string): Promise<Article[]> {
+let listCache: { articles: Article[]; at: number } | null = null;
+const LIST_CACHE_TTL = 5 * 60 * 1000;
+
+const fetchAllArticles = async (): Promise<Article[]> => {
   const blogIds = ids();
-  if (!blogIds.length)
-    return query
-      ? mockArticles.filter((a) =>
-          `${a.title} ${a.excerpt}`.toLowerCase().includes(query.toLowerCase()),
-        )
-      : mockArticles;
+  if (!blogIds.length) return mockArticles;
   const groups = await Promise.all(
     blogIds.map((id, i) => fetchBlogPosts(id, i)),
   );
   const results = groups
     .flat()
     .sort((a, b) => +new Date(b.published) - +new Date(a.published));
-  const source = results.length ? results : mockArticles;
+  return results.length ? results : mockArticles;
+};
+
+export async function getArticles(query?: string): Promise<Article[]> {
+  if (!listCache || Date.now() - listCache.at > LIST_CACHE_TTL) {
+    listCache = { articles: await fetchAllArticles(), at: Date.now() };
+  }
+  const source = listCache.articles;
   return query
     ? source.filter((a) =>
         `${a.title} ${a.excerpt}`.toLowerCase().includes(query.toLowerCase()),
