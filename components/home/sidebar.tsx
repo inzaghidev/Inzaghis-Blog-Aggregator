@@ -62,10 +62,11 @@ export async function Sidebar() {
         <LinkIcon className="size-5" />
         <h2 className="mt-3 text-md font-bold">Inzaghi&apos;s Blog Links</h2>
         <p className="mt-2 text-xs leading-relaxed text-orange-100">
-          The best way to stay updated with the latest posts and articles from
-          Inzaghi&apos;s Blog, such as an Inzaghi's Blog Legacy, Teknoblog, and
-          Miniblog.
+          Untuk melihat Blog kami seperti Inzaghi's Blog Legacy, Teknoblog, dan
+          Miniblog dengan Platform Blogger (Blogspot), silakan klik pada Link
+          berikut ini.
         </p>
+        <br className="my-1 block border-zinc-200 dark:border-zinc-700" />
         <label className="mt-3 text-sm font-bold">Inzaghi's Blog Legacy</label>
         <br className="my-1 block border-zinc-200 dark:border-zinc-700" />
         <Link

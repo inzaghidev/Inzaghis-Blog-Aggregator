@@ -51,7 +51,7 @@ export default async function Home() {
       <section className="mt-10 grid gap-7 lg:grid-cols-[1fr_290px]">
         <div>
           <div className="mb-5 flex items-center justify-between">
-            <h2 className="text-xl font-bold tracking-tight">Latest flows</h2>
+            <h2 className="text-xl font-bold tracking-tight">Latest Posts</h2>
             <div className="flex gap-3 text-[10px]">
               <button className="border-b border-orange-500 pb-1 text-orange-600">
                 Recent
@@ -80,14 +80,17 @@ export default async function Home() {
       <section className="paper mt-16 rounded-2xl p-7 sm:p-10">
         <div className="max-w-xl">
           <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-orange-500">
-            <Sparkles className="size-4" /> Curated for curious builders
+            <Sparkles className="size-4" /> A Blog Aggregator for Inzaghi's Blog
           </p>
           <h2 className="mt-3 text-3xl font-extrabold tracking-tight">
-            Technology should feel more human.
+            Inzaghi's Blog Aggregator, from Inzaghi's Group (InzaTech).
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-zinc-500">
-            We collect rigorous ideas from Inzaghi&apos;s Blog, Teknoblog, and
-            Miniblog so you can stay focused on the work that matters.
+            Inzaghi's Blog merupakan Platform Blogging sebagai tempat untuk
+            berbagi Ilmu Pengetahuan, terutama seputar IT. Inzaghi's Blog lebih
+            menggunakan Platform Blogger, agar lebih mudah dan praktis. Adapun
+            Blog yang tersedia adalah IB Legacy (Blog Lama), Teknoblog (Blog
+            Baru), dan Miniblog (Blog Baru untuk Microblogging).
           </p>
         </div>
       </section>

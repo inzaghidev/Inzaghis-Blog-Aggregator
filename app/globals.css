@@ -173,6 +173,16 @@ body {
   color: #f7f7f7;
   margin: 1.5rem 0;
 }
+
+/* .article-copy pre {
+  overflow-x: auto;
+  border-radius: 1rem;
+  background: #111 !important;
+  padding: 1.2rem;
+  color: #f7f7f7 !important;
+  margin: 1.5rem 0;
+} */
+
 .article-copy img {
   margin: 1.5rem 0 auto;
   display: block;
@@ -195,6 +205,14 @@ body {
   /* allow code blocks to wrap and still be scrollable when needed */
   white-space: pre-wrap; /* wrap long lines */
   overflow-x: auto;
+}
+/* Neutralize light-theme inline syntax colors (from Blogger embeds)
+   so code text stays readable on the dark block */
+.article-copy pre code,
+.article-copy pre span {
+  color: inherit !important;
+  background-color: transparent !important;
+  text-shadow: none !important;
 }
 .article-copy img,
 .article-copy iframe,

@@ -9,7 +9,7 @@ interface BlogsClientProps {
 }
 
 export function BlogsClient({ initialArticles }: BlogsClientProps) {
-  const [filter, setFilter] = useState<"all" | "legacy" | "teknoblog">("all");
+  const [filter, setFilter] = useState<"all" | "teknoblog" | "legacy">("all");
 
   const filteredArticles = initialArticles.filter((article) => {
     if (filter === "all") return true;
@@ -28,18 +28,7 @@ export function BlogsClient({ initialArticles }: BlogsClientProps) {
               : "text-zinc-500 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900"
           }`}
         >
-          All Blogs ({initialArticles.length})
-        </button>
-        <button
-          onClick={() => setFilter("legacy")}
-          className={`px-4 py-2 text-xs font-bold transition-all rounded-full ${
-            filter === "legacy"
-              ? "bg-orange-500 text-white shadow-md shadow-orange-500/20"
-              : "text-zinc-500 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900"
-          }`}
-        >
-          IB Legacy (
-          {initialArticles.filter((a) => a.source === "legacy").length})
+          All ({initialArticles.length})
         </button>
         <button
           onClick={() => setFilter("teknoblog")}
@@ -51,6 +40,17 @@ export function BlogsClient({ initialArticles }: BlogsClientProps) {
         >
           Teknoblog (
           {initialArticles.filter((a) => a.source === "teknoblog").length})
+        </button>
+        <button
+          onClick={() => setFilter("legacy")}
+          className={`px-4 py-2 text-xs font-bold transition-all rounded-full ${
+            filter === "legacy"
+              ? "bg-orange-500 text-white shadow-md shadow-orange-500/20"
+              : "text-zinc-500 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900"
+          }`}
+        >
+          IB Legacy (
+          {initialArticles.filter((a) => a.source === "legacy").length})
         </button>
       </div>
 

@@ -22,8 +22,8 @@ export default async function BlogsPage() {
         description="Articles and stories from IB Legacy and Teknoblog."
         pageSize={18}
         filterSources={[
-          { value: "legacy", label: "IB Legacy" },
           { value: "teknoblog", label: "Teknoblog" },
+          { value: "legacy", label: "IB Legacy" },
         ]}
       />
     </main>

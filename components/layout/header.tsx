@@ -91,7 +91,11 @@ export function Header() {
   };
 
   const linkClass = (path: string) => {
-    const isActive = pathname === path;
+    const isHome = path === "/";
+    const isActive =
+      isHome && (pathname === "/" || pathname === "" || pathname === "//")
+        ? true
+        : pathname === path;
     return isActive
       ? "text-orange-500 font-bold"
       : "text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors";

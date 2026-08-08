@@ -2,11 +2,21 @@
 
 A premium multi-blog developer publication built with Next.js 15, React 19, TypeScript, Tailwind CSS 4, and the Google Blogger API v3. The app presents Blogger blogs through a secure server-side proxy—API credentials never reach the browser.
 
+## Inzaghi's Blog Aggregator Homepage
+
+Light Mode :
+
+![Inzaghi's Blog Homepage (Light Mode)](./public/images/inzaghis-blog-aggregator-light-home-202608.png)
+
+Dark Mode :
+
+![Inzaghi's Blog Homepage (Dark Mode)](./public/images/inzaghis-blog-aggregator-dark-home-202608.png)
+
 ## Included
 
 - Responsive editorial home, story feed, category and author pages
 - Dynamic post pages with JSON-LD, OpenGraph metadata, related stories, table of contents shell, sharing, syntax-friendly content, and comments UI
-- Blogger aggregation for Legacy, Teknoblog, and Miniblog
+- Blogger aggregation for IB Legacy, Teknoblog, and Miniblog
 - Server-only API layer, HTML sanitization, ISR caching, image optimization, and IP rate limiting
 - `robots.txt`, dynamic `sitemap.xml`, and `/rss.xml`
 - Dark mode, motion-ready card transitions, loading and error states

@@ -28,7 +28,8 @@ export function Footer() {
           <Link href="/about">About</Link>
           <Link href="/blogs">Blogs</Link>
           <Link href="/microblogs">Microblogs</Link>
-          <Link href="/privacy">Privacy</Link>
+          <Link href="/privacy">Privacy Policy</Link>
+          <Link href="/disclaimer">Terms of Service</Link>
           <Link href="/rss.xml">RSS</Link>
           <GitHubButton
             href="https://github.com/inzaghidev/Inzaghis-Blog-Aggregator"
