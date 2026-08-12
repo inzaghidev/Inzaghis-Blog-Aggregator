@@ -26,10 +26,16 @@ export function ArticleCard({
             {article.labels[0]}{" "}
             <span className="text-zinc-400">
               •{" "}
-              {new Date(article.published).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-              })}
+              {(() => {
+                const publishedDate = new Date(article.published);
+                const currentYear = new Date().getFullYear();
+                const showYear = publishedDate.getFullYear() !== currentYear;
+                return publishedDate.toLocaleDateString("en-UK", {
+                  day: "numeric",
+                  month: "short",
+                  ...(showYear ? { year: "numeric" } : {}),
+                });
+              })()}
             </span>
           </p>
           <h3 className="line-clamp-2 text-lg font-bold leading-tight tracking-tight">
@@ -42,7 +48,8 @@ export function ArticleCard({
           ) : null}
           <div className="mt-5 flex items-center justify-between border-t border-zinc-100 pt-3 text-[10px] text-zinc-400 dark:border-zinc-800">
             <span>
-              {article.author.name} · {article.views?.toLocaleString("en-US")} views
+              {article.author.name} · {article.views?.toLocaleString("en-US")}{" "}
+              views
             </span>
             <span className="flex gap-2">
               <Eye className="size-3" /> <MessageCircle className="size-3" />{" "}

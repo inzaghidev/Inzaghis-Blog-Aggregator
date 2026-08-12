@@ -260,10 +260,10 @@ export function SearchClient({
                       </span>
                       <span className="text-[10px] text-zinc-400">
                         {new Date(article.published).toLocaleDateString(
-                          "en-US",
+                          "en-UK",
                           {
-                            month: "short",
                             day: "numeric",
+                            month: "short",
                             year: "numeric",
                           },
                         )}
@@ -274,7 +274,10 @@ export function SearchClient({
                     </h3>
                     {article.excerpt ? (
                       <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-zinc-500">
-                        <Highlight text={article.excerpt} query={trimmedQuery} />
+                        <Highlight
+                          text={article.excerpt}
+                          query={trimmedQuery}
+                        />
                       </p>
                     ) : null}
                     <div className="mt-2 flex flex-wrap gap-1.5">

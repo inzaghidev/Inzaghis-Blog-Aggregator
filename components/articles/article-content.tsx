@@ -75,7 +75,7 @@ export function ArticleContent({ cover, html }: ArticleContentProps) {
 
       {previewSrc ? (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          className="fixed inset-0 z-50 flex cursor-zoom-out items-center justify-center bg-black/90 p-2"
           onClick={() => setPreviewSrc(null)}
         >
           <div className="relative max-h-full max-w-full overflow-hidden rounded-lg bg-black shadow-2xl">
@@ -88,7 +88,7 @@ export function ArticleContent({ cover, html }: ArticleContentProps) {
             <img
               src={previewSrc}
               alt="Preview"
-              className="max-h-[90vh] max-w-[90vw] object-contain"
+              className="max-h-[97vh] max-w-[97vw] object-contain"
             />
           </div>
         </div>
