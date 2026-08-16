@@ -6,6 +6,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     { url: base, lastModified: new Date() },
     { url: `${base}/articles`, lastModified: new Date() },
+    { url: `${base}/privacy`, lastModified: new Date() },
+    { url: `${base}/disclaimer`, lastModified: new Date() },
     ...articles.map((a) => ({
       url: `${base}${a.url}`,
       lastModified: new Date(a.updated || a.published),

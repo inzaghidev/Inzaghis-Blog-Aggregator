@@ -183,8 +183,18 @@ const fetchBlogPosts = async (
 };
 const extractFirstImage = (content: string): string | null => {
   if (!content) return null;
-  const match = content.match(/<img[^>]+src=["']([^"']+)["']/i);
-  return match ? match[1] : null;
+  const match = content.match(/src=(?:"([^"]*)"|'([^']*)')/i);
+  const src = match ? (match[1] ?? match[2]) : "";
+  if (!src) return null;
+  const normalized = src.replace(/ /g, "%20");
+  try {
+    return new URL(
+      normalized,
+      "https://blogger.googleusercontent.com",
+    ).href;
+  } catch {
+    return null;
+  }
 };
 
 const sanitizeOptions = {
@@ -266,8 +276,8 @@ const normalize = (
   const content = includeContent ? sanitizeHtml(raw, sanitizeOptions) : "";
   const parsedCover = extractFirstImage(raw);
   let cover =
-    parsedCover ||
     post.images?.[0]?.url ||
+    parsedCover ||
     mockArticles[i % mockArticles.length].cover;
   if (cover && cover.startsWith("//")) {
     cover = `https:${cover}`;
