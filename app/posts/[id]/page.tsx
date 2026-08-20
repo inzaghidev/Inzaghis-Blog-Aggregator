@@ -5,6 +5,7 @@ import { Clock, Eye, Link2, Share2 } from "lucide-react";
 import { getArticle, getArticles } from "@/lib/blogger/service";
 import { ArticleCard } from "@/components/articles/article-card";
 import { ArticleContent } from "../../../components/articles/article-content";
+import { formatDate } from "@/lib/utils";
 export async function generateMetadata({
   params,
 }: {
@@ -49,7 +50,7 @@ export default async function Post({
         <article>
           <p className="text-[10px] font-bold uppercase tracking-wider text-orange-500">
             {article.labels[0]} ·{" "}
-            {new Date(article.published).toLocaleDateString()}
+            {formatDate(article.published)}
           </p>
           <h1 className="mt-3 text-4xl font-extrabold leading-[1.05] tracking-tighter sm:text-5xl">
             {article.title}

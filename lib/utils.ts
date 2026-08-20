@@ -17,3 +17,11 @@ export const excerpt = (html: string, max = 150) => {
     .trim();
   return text.length > max ? `${text.slice(0, max).trim()}…` : text;
 };
+export const formatDate = (dateInput: string | Date) => {
+  const date = new Date(dateInput);
+  const day = date.getDate().toString().padStart(2, "0");
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Agu", "Sep", "Oct", "Nov", "Dec"];
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+  return `${day} ${month} ${year}`;
+};
