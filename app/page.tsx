@@ -52,12 +52,12 @@ export default async function Home() {
         <div>
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-xl font-bold tracking-tight">Latest Posts</h2>
-            <div className="flex gap-3 text-[10px]">
+            {/* <div className="flex gap-3 text-[10px]">
               <button className="border-b border-orange-500 pb-1 text-orange-600">
                 Recent
               </button>
               <button className="text-zinc-400">Popular</button>
-            </div>
+            </div> */}
           </div>
 
           <ArticleList

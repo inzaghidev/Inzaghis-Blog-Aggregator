@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, LinkIcon, Mail } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  LinkIcon,
+  Mail,
+  StickyNote,
+  Tag,
+} from "lucide-react";
 import { getArticles } from "@/lib/blogger/service";
 
 const categories = [
@@ -23,7 +30,10 @@ export async function Sidebar() {
   return (
     <aside className="space-y-5">
       <section className="paper rounded-2xl p-5">
-        <h2 className="text-xs font-bold tracking-wide">🏷 Categories</h2>
+        <div className="flex items-center gap-2">
+          <Tag className="size-5" />
+          <h2 className="text-md font-bold tracking-wide">Categories</h2>
+        </div>
         <div className="mt-4 flex flex-wrap gap-2">
           {categories.map((c) => (
             <Link
@@ -37,7 +47,10 @@ export async function Sidebar() {
         </div>
       </section>
       <section className="paper rounded-2xl p-5">
-        <h2 className="text-xs font-bold tracking-wide">〽 Popular Posts</h2>
+        <div className="flex items-center gap-2">
+          <StickyNote className="size-5" />
+          <h2 className="text-md font-bold tracking-wide">Recent Posts</h2>
+        </div>
         {popularPosts.map((post, i) => (
           <Link
             href={post.url}
@@ -59,8 +72,12 @@ export async function Sidebar() {
         ))}
       </section>
       <section className="rounded-2xl bg-gradient-to-br from-orange-500 to-orange-700 p-5 text-white shadow-lg shadow-orange-500/20">
-        <LinkIcon className="size-5" />
-        <h2 className="mt-3 text-md font-bold">Inzaghi&apos;s Blog Links</h2>
+        <div className="flex items-center gap-2">
+          <LinkIcon className="size-5" />
+          <h2 className="text-md font-bold tracking-wide">
+            Inzaghi&apos;s Blog Links
+          </h2>
+        </div>
         <p className="mt-2 text-xs leading-relaxed text-orange-100">
           Untuk melihat Blog kami seperti Inzaghi's Blog Legacy, Teknoblog, dan
           Miniblog dengan Platform Blogger (Blogspot), silakan klik pada Link
