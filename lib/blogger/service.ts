@@ -124,7 +124,7 @@ const api = async (path: string, attempts = 2): Promise<any> => {
   const url = `https://www.googleapis.com/blogger/v3${path}${path.includes("?") ? "&" : "?"}key=${key}`;
   for (let attempt = 1; attempt <= attempts; attempt++) {
     try {
-      const response = await fetch(url, { cache: "no-store" });
+      const response = await fetch(url, { next: { revalidate: 3600 } });
       if (response.ok) return response.json();
       const retryable = response.status === 429 || response.status >= 500;
       if (attempt < attempts && retryable) {
