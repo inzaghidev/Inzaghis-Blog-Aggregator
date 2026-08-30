@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Clock, Eye, Link2, Share2 } from "lucide-react";
+import { Calendar, Eye, Link2, Share2 } from "lucide-react";
 import { getArticle, getArticles } from "@/lib/blogger/service";
 import { ArticleCard } from "@/components/articles/article-card";
 import { ArticleContent } from "../../../components/articles/article-content";
@@ -49,13 +49,18 @@ export default async function Post({
       <div className="grid gap-10 lg:grid-cols-[minmax(0,720px)_250px]">
         <article>
           <p className="text-[10px] font-bold uppercase tracking-wider text-orange-500">
-            {article.labels[0]} ·{" "}
-            {formatDate(article.published)}
+            {article.labels.slice(0, 3).join(" · ")}
           </p>
+          {/* Jika hanya menampilkan maks. 2 Label/Tag
+          <p className="text-[10px] font-bold uppercase tracking-wider text-orange-500">
+            {article.labels.length >= 2
+              ? `${article.labels[0]} · ${article.labels[1]}`
+              : article.labels[0]}
+          </p> */}
           <h1 className="mt-3 text-4xl font-extrabold leading-[1.05] tracking-tighter sm:text-5xl">
             {article.title}
           </h1>
-          <div className="mt-6 flex min-w-0 flex-col gap-4 border-y border-zinc-200 py-4 text-xs dark:border-zinc-800 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-6 flex min-w-0 flex-col gap-4 border-y border-zinc-400 py-4 text-xs dark:border-zinc-600 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex min-w-0 items-center gap-3">
               <span className="grid size-9 place-items-center rounded-full bg-orange-500 font-bold text-white">
                 {article.author.name[0]}
@@ -67,15 +72,19 @@ export default async function Post({
               </Link>
             </div>
             <span className="flex min-w-0 items-center gap-3 text-zinc-500">
-              <Clock className="size-4" /> 12 min <Eye className="size-4" />{" "}
-              {article.views}
+              <Calendar className="size-4" /> {formatDate(article.published)}
+              <Eye className="size-4" /> {article.views}
             </span>
           </div>
-          <ArticleContent cover={article.cover} html={article.content} />
+          <ArticleContent
+            cover={article.cover}
+            html={article.content}
+            title={article.title}
+          />
           <div className="mt-10 flex flex-wrap gap-2">
             {article.labels.map((tag) => {
               const categorySlug = encodeURIComponent(
-                tag.toLowerCase().replace(/\s+/g, "-")
+                tag.toLowerCase().replace(/\s+/g, "-"),
               );
               return (
                 <Link

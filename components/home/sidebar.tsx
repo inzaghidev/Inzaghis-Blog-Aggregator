@@ -61,7 +61,7 @@ export async function Sidebar() {
               0{i + 1}
             </span>
             <div>
-              <p className="line-clamp-2 text-xs font-semibold leading-snug transition-colors group-hover:text-orange-500">
+              <p title={post.title} className="line-clamp-2 text-xs font-semibold leading-snug transition-colors group-hover:text-orange-500">
                 {post.title}
               </p>
               <p className="mt-1 text-[10px] text-zinc-400">

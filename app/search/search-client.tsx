@@ -269,7 +269,7 @@ export function SearchClient({
                         )}
                       </span>
                     </div>
-                    <h3 className="mt-1.5 line-clamp-2 text-base font-bold tracking-tight text-zinc-900 dark:text-white">
+                    <h3 title={article.title} className="mt-1.5 line-clamp-2 text-base font-bold tracking-tight text-zinc-900 dark:text-white">
                       <Highlight text={article.title} query={trimmedQuery} />
                     </h3>
                     {article.excerpt ? (

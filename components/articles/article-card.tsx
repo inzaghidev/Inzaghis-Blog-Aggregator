@@ -38,7 +38,7 @@ export function ArticleCard({
               })()}
             </span>
           </p>
-          <h3 className="line-clamp-2 text-lg font-bold leading-tight tracking-tight">
+          <h3 title={article.title} className="line-clamp-2 text-lg font-bold leading-tight tracking-tight">
             {article.title}
           </h3>
           {article.excerpt ? (

@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 interface ArticleContentProps {
   cover: string;
   html: string;
+  title: string;
 }
 
 const isImageUrl = (url: string): boolean => {
@@ -14,13 +15,15 @@ const isImageUrl = (url: string): boolean => {
     if (/\.(jpe?g|png|gif|webp|avif|bmp|svg)(\?|#|$)/i.test(parsed.pathname)) {
       return true;
     }
-    return /googleusercontent\.com\/img\//i.test(parsed.hostname + parsed.pathname);
+    return /googleusercontent\.com\/img\//i.test(
+      parsed.hostname + parsed.pathname,
+    );
   } catch {
     return false;
   }
 };
 
-export function ArticleContent({ cover, html }: ArticleContentProps) {
+export function ArticleContent({ cover, html, title }: ArticleContentProps) {
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
   const copyRef = useRef<HTMLDivElement>(null);
 
@@ -42,13 +45,15 @@ export function ArticleContent({ cover, html }: ArticleContentProps) {
       <div className="relative mt-7 aspect-video overflow-hidden rounded-2xl">
         <Image
           src={cover}
-          alt=""
+          alt={title}
+          title={title}
           fill
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 720px"
           onClick={() => setPreviewSrc(cover)}
         />
       </div>
+      <br />
 
       <div
         ref={copyRef}
@@ -58,7 +63,8 @@ export function ArticleContent({ cover, html }: ArticleContentProps) {
           const target = event.target as HTMLElement;
           const img = target.closest("img");
           if (img) {
-            const src = (img as HTMLImageElement).currentSrc || img.getAttribute("src");
+            const src =
+              (img as HTMLImageElement).currentSrc || img.getAttribute("src");
             if (src) {
               event.preventDefault();
               setPreviewSrc(src);
