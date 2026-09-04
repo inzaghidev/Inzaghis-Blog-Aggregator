@@ -122,10 +122,10 @@ export function Header() {
             <img
               src={
                 dark
-                  ? "/icons/inzaghis-blog-logo-dengan-hut-ri-81-putih.png"
-                  : "/icons/inzaghis-blog-logo-dengan-hut-ri-81.png"
+                  ? "/icons/inzaghis-blog-logo-vertical-white-transparent.png"
+                  : "/icons/inzaghis-blog-logo-vertical-transparent.png"
               }
-              title="Inzaghi's Blog | Dirgahayu Republik Indonesia! #81"
+              title="Inzaghi's Blog"
               className="h-10 w-auto max-w-[160px]"
               alt="Inzaghi's Blog"
             />
@@ -144,6 +144,10 @@ export function Header() {
 
           <Link className={linkClass("/microblogs")} href="/microblogs">
             Microblogs
+          </Link>
+
+          <Link className={linkClass("/sitemap-client")} href="/sitemap-client">
+            Sitemap
           </Link>
         </nav>
 
@@ -280,6 +284,14 @@ export function Header() {
               onClick={() => setOpen(false)}
             >
               Microblogs
+            </Link>
+
+            <Link
+              href="/sitemap-client"
+              className={linkClass("/sitemap-client")}
+              onClick={() => setOpen(false)}
+            >
+              Sitemap
             </Link>
 
             <Link

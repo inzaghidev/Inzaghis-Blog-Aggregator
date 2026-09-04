@@ -170,8 +170,24 @@ body {
   border-radius: 1rem;
   background: #111;
   padding: 1.2rem;
-  color: #f7f7f7;
+  color: #d4d4d4;
   margin: 1.5rem 0;
+  scrollbar-width: thin;
+  scrollbar-color: #444 #111;
+}
+.article-copy pre::-webkit-scrollbar {
+  height: 6px;
+}
+.article-copy pre::-webkit-scrollbar-track {
+  background: #111;
+  border-radius: 3px;
+}
+.article-copy pre::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 3px;
+}
+.article-copy pre::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 /* .article-copy pre {
@@ -193,26 +209,116 @@ body {
 
 /* Prevent wide content from overflowing on small screens */
 .article-copy,
-.article-copy * {
+.article-copy *:not(pre):not(pre *) {
   max-width: 100%;
   box-sizing: border-box;
 }
 .article-copy {
+  width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
   overflow-wrap: anywhere;
   word-break: break-word;
 }
-.article-copy pre {
-  /* allow code blocks to wrap and still be scrollable when needed */
-  white-space: pre-wrap; /* wrap long lines */
-  overflow-x: auto;
+.article-copy > *,
+.article-copy table,
+.article-copy figure {
+  min-width: 0;
+  max-width: 100%;
 }
-/* Neutralize light-theme inline syntax colors (from Blogger embeds)
-   so code text stays readable on the dark block */
-.article-copy pre code,
-.article-copy pre span {
-  color: inherit !important;
-  background-color: transparent !important;
-  text-shadow: none !important;
+.article-copy table {
+  width: 100%;
+  table-layout: fixed;
+}
+.article-copy pre {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  white-space: pre-wrap;
+  overflow-x: hidden;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  -webkit-overflow-scrolling: touch;
+}
+.article-code-wrapper {
+  max-width: 100%;
+  min-width: 0;
+}
+.article-copy pre code {
+  display: block;
+  min-width: 0;
+  white-space: inherit;
+  overflow-wrap: inherit;
+  word-break: inherit;
+  padding: 0.25rem 0;
+}
+.article-copy pre * {
+  max-width: 100%;
+  min-width: 0;
+  white-space: inherit !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+/* Remap Blogger's light-theme syntax colors to dark-theme equivalents */
+.article-copy pre span[style*="color: #000"],
+.article-copy pre span[style*="color:#000"],
+.article-copy pre span[style*="color: black"],
+.article-copy pre span[style*="color:#333"],
+.article-copy pre span[style*="color: #333"] {
+  color: #d4d4d4 !important;
+}
+.article-copy pre span[style*="color: #0000FF"],
+.article-copy pre span[style*="color:#0000FF"],
+.article-copy pre span[style*="color: blue"],
+.article-copy pre span[style*="color: #0000ff"] {
+  color: #569cd6 !important;
+}
+.article-copy pre span[style*="color: #008000"],
+.article-copy pre span[style*="color:#008000"],
+.article-copy pre span[style*="color: green"],
+.article-copy pre span[style*="color: #008000"] {
+  color: #6a9955 !important;
+}
+.article-copy pre span[style*="color: #FF0000"],
+.article-copy pre span[style*="color:#FF0000"],
+.article-copy pre span[style*="color: red"],
+.article-copy pre span[style*="color: #ff0000"] {
+  color: #ce9178 !important;
+}
+.article-copy pre span[style*="color: #800080"],
+.article-copy pre span[style*="color:#800080"],
+.article-copy pre span[style*="color: purple"],
+.article-copy pre span[style*="color: #800080"] {
+  color: #c586c0 !important;
+}
+.article-copy pre span[style*="color: #FF6600"],
+.article-copy pre span[style*="color:#FF6600"],
+.article-copy pre span[style*="color: orange"] {
+  color: #ce9178 !important;
+}
+.article-copy pre span[style*="color: #A31515"],
+.article-copy pre span[style*="color:#A31515"] {
+  color: #ce9178 !important;
+}
+.article-copy pre span[style*="color: #0070C1"],
+.article-copy pre span[style*="color:#0070C1"] {
+  color: #569cd6 !important;
+}
+.article-copy pre span[style*="color: #795E26"],
+.article-copy pre span[style*="color:#795E26"] {
+  color: #dcdcaa !important;
+}
+.article-copy pre span[style*="color: #267F99"],
+.article-copy pre span[style*="color:#267F99"] {
+  color: #4ec9b0 !important;
+}
+.article-copy pre span[style*="color: #001080"],
+.article-copy pre span[style*="color:#001080"] {
+  color: #569cd6 !important;
+}
+.article-copy pre span[style*="color: #008080"],
+.article-copy pre span[style*="color:#008080"] {
+  color: #4ec9b0 !important;
 }
 .article-copy img,
 .article-copy iframe,
@@ -223,8 +329,12 @@ body {
 }
 
 /* smaller paddings for very small viewports if needed */
-@media (max-width: 420px) {
+@media (max-width: 768px) {
   .article-copy {
     font-size: 14px;
+  }
+
+  .article-code-wrapper {
+    overflow-x: hidden !important;
   }
 }

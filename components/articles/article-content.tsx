@@ -30,6 +30,7 @@ export function ArticleContent({ cover, html, title }: ArticleContentProps) {
   useEffect(() => {
     const root = copyRef.current;
     if (!root) return;
+
     root.querySelectorAll("iframe").forEach((frame) => {
       const w = parseFloat(frame.getAttribute("width") || "");
       const h = parseFloat(frame.getAttribute("height") || "");
@@ -37,6 +38,34 @@ export function ArticleContent({ cover, html, title }: ArticleContentProps) {
         frame.style.aspectRatio = `${w} / ${h}`;
         frame.style.maxWidth = "100%";
       }
+    });
+
+    root.querySelectorAll("pre").forEach((pre) => {
+      if (pre.parentElement?.classList.contains("article-code-wrapper")) {
+        return;
+      }
+
+      pre.removeAttribute("style");
+      const wrapper = document.createElement("div");
+      wrapper.className = "article-code-wrapper";
+      wrapper.setAttribute(
+        "style",
+        "overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;max-width:100%;min-width:0;box-sizing:border-box;margin:1.5rem 0;border:1px solid #facc15;border-left-width:5px;border-radius:1rem;background:#111;",
+      );
+      pre.parentNode?.insertBefore(wrapper, pre);
+      wrapper.appendChild(pre);
+
+      const codeBlock = (pre.querySelector("code") || pre) as HTMLElement;
+      codeBlock.setAttribute(
+        "style",
+        "display:block;max-width:100%;min-width:0;box-sizing:border-box;padding:1.2rem;margin:0;background:#1f1f1f;color:#d4d4d4;white-space:pre-wrap!important;word-wrap:break-word!important;overflow-wrap:anywhere!important;word-break:break-word!important;font-family:'SFMono-Regular',Consolas,monospace;font-size:14px;line-height:1.6;tab-size:2;",
+      );
+
+      pre.querySelectorAll("span").forEach((span) => {
+        const inlineColor = span.getAttribute("style") || "";
+        span.removeAttribute("style");
+        span.setAttribute("style", inlineColor);
+      });
     });
   }, [html]);
 
