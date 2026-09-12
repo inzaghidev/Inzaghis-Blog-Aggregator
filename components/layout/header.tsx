@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Menu, X, Moon, Search, Sun } from "lucide-react";
+import { Menu, X, Moon, Search, SearchSlash, Sun } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -196,7 +196,7 @@ export function Header() {
             className="rounded-lg p-2 text-zinc-500 transition-all duration-200 hover:bg-zinc-100 hover:shadow-sm active:scale-95 dark:text-zinc-400 dark:hover:bg-zinc-800 md:hidden"
           >
             {mobileSearch ? (
-              <X className="size-5" />
+              <SearchSlash className="size-5" />
             ) : (
               <Search className="size-5" />
             )}
@@ -214,7 +214,7 @@ export function Header() {
           {/* Create Post */}
           <Link
             href="/admin"
-            className="hidden rounded-lg bg-orange-500 px-4 py-2 text-xs font-bold text-white shadow-sm transition-all duration-200 hover:bg-orange-600 hover:shadow-md active:scale-95 sm:block"
+            className="hidden rounded-lg bg-orange-500 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-orange-600 hover:shadow-md active:scale-95 transition-all duration-200 md:block"
           >
             Create Post
           </Link>
@@ -296,7 +296,7 @@ export function Header() {
 
             <Link
               href="/admin"
-              className="mx-5 mt-3 rounded-lg bg-orange-500 px-4 py-3 text-center text-sm font-bold text-white hover:bg-orange-600"
+              className="mx-5 mt-3 rounded-lg bg-orange-500 px-4 py-3 text-center text-sm font-bold text-white hover:bg-orange-600 active:scale-95 transition-all duration-200"
               onClick={() => setOpen(false)}
             >
               Create Post

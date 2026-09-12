@@ -22,6 +22,14 @@ export const metadata = {
     description:
       "Browse all posts from Inzaghi's Blog Legacy, Teknoblog, and Miniblog.",
     type: "website",
+    images: [
+      {
+        url: "/images/inzaghis-blog-aggregator.png",
+        width: 1200,
+        height: 630,
+        alt: "Inzaghi's Blog Aggregator",
+      },
+    ],
   },
   alternates: {
     canonical: "/sitemap-client",

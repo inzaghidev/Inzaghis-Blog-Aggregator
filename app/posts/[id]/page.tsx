@@ -48,16 +48,21 @@ export default async function Post({
       />
       <div className="grid gap-10 lg:grid-cols-[minmax(0,720px)_250px]">
         <article>
-          <p className="text-[10px] font-bold uppercase tracking-wider text-orange-500">
-            {article.labels.slice(0, 3).join(" · ")}
-          </p>
+          <div className="flex flex-col gap-2 md:flex-row md:justify-between">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-orange-500">
+              {article.labels.slice(0, 3).join(" · ")}
+            </p>
+            <Link href={article.url} className="flex rounded-lg bg-orange-400 gap-3 px-4 py-2 mr-auto md:mr-0! min-w-0 items-center active:scale-95 transition-all duration-200 text-xs text-white hover:bg-orange-500! hover:text-white">
+              Original Post
+            </Link>
+          </div>
           {/* Jika hanya menampilkan maks. 2 Label/Tag
           <p className="text-[10px] font-bold uppercase tracking-wider text-orange-500">
             {article.labels.length >= 2
               ? `${article.labels[0]} · ${article.labels[1]}`
               : article.labels[0]}
           </p> */}
-          <h1 className="mt-3 text-4xl font-extrabold leading-[1.05] tracking-tighter sm:text-5xl">
+          <h1 className="mt-5 text-4xl font-extrabold leading-[1.05] tracking-tighter sm:text-5xl">
             {article.title}
           </h1>
           <div className="mt-6 flex min-w-0 flex-col gap-4 border-y border-zinc-400 py-4 text-xs dark:border-zinc-600 sm:flex-row sm:items-center sm:justify-between">

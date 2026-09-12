@@ -26,8 +26,25 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "Inzaghi's Blog",
     locale: "en_US, en_GB, id_ID",
+    title: "Inzaghi's Blog — Blog Post Aggregator",
+    description:
+      "An Inzaghi's Blog Aggregator that aggregates content from Inzaghi's Blog Legacy, Teknoblog and Miniblog.",
+    images: [
+      {
+        url: "/images/inzaghis-blog-aggregator.png",
+        width: 1200,
+        height: 630,
+        alt: "Inzaghi's Blog Aggregator",
+      },
+    ],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: {
+    card: "summary_large_image",
+    title: "Inzaghi's Blog — Blog Post Aggregator",
+    description:
+      "An Inzaghi's Blog Aggregator that aggregates content from Inzaghi's Blog Legacy, Teknoblog and Miniblog.",
+    images: ["/images/inzaghis-blog-aggregator.png"],
+  },
   verification: {
     google: "0U4PwP14dUkc0abyH0LHWr1H2_z0dlGpcR_tgM0K5ks",
   },
