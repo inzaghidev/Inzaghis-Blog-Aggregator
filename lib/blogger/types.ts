@@ -11,7 +11,7 @@ export type Article = {
   url: string;
   cover: string;
   labels: string[];
-  author: { name: string; avatar?: string; bio?: string };
+  author: { name: string; profileId?: string; avatar?: string; bio?: string };
   views?: number;
   comments?: number;
 };

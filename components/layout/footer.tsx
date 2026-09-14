@@ -25,13 +25,35 @@ export function Footer() {
           </span>
         </div>
         <nav className="sm:ml-auto flex flex-wrap gap-4 items-center">
-          <Link href="/about">About</Link>
-          <Link href="/blogs">Blogs</Link>
-          <Link href="/microblogs">Microblogs</Link>
-          <Link href="/privacy">Privacy Policy</Link>
-          <Link href="/disclaimer">Terms of Service</Link>
-          <Link href="/sitemap-client">Sitemap</Link>
-          <Link href="/rss.xml">RSS</Link>
+          <Link className="hover:text-orange-500" href="/about">
+            About
+          </Link>
+          <Link className="hover:text-orange-500" href="/blogs">
+            Blogs
+          </Link>
+          <Link className="hover:text-orange-500" href="/microblogs">
+            Microblogs
+          </Link>
+          <Link className="hover:text-orange-500" href="/privacy">
+            Privacy Policy
+          </Link>
+          <Link className="hover:text-orange-500" href="/disclaimer">
+            Terms of Service
+          </Link>
+          <Link className="hover:text-orange-500" href="/sitemap-client">
+            Sitemap
+          </Link>
+          <Link className="hover:text-orange-500" href="/rss.xml">
+            RSS
+          </Link>
+          <Link
+            href="https://linktr.ee/inzaghigroup"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-green-700 dark:text-green-300 hover:text-green-900 hover:dark:text-green-100"
+          >
+            Linktree Inzaghi's Group
+          </Link>
           <GitHubButton
             href="https://github.com/inzaghidev/Inzaghis-Blog-Aggregator"
             data-color-scheme="no-preference: light; light: light; dark: dark;"

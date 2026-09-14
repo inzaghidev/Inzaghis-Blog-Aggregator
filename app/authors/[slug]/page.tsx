@@ -1,15 +1,24 @@
 import { getArticles } from "@/lib/blogger/service";
 import { ArticleCard } from "@/components/articles/article-card";
+import Link from "next/link";
 export default async function Author({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const name = (await params).slug
+  const slug = (await params).slug;
+  const name = slug
     .split("-")
     .map((s) => s[0].toUpperCase() + s.slice(1))
     .join(" ");
   const articles = await getArticles();
+
+  // Find the Blogger profile ID from any article by this author
+  const authorArticle = articles.find(
+    (a) => a.author.name.toLowerCase() === name.toLowerCase()
+  );
+  const profileId = authorArticle?.author.profileId;
+
   return (
     <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
       <section className="paper flex flex-col items-start gap-5 rounded-2xl p-7 sm:flex-row sm:items-center">
@@ -23,7 +32,18 @@ export default async function Author({
             ideas that shape the web.
           </p>
           <p className="mt-3 text-xs font-semibold text-orange-500">
-            @{(await params).slug} · linkedin · x
+            {profileId ? (
+              <Link
+                href={`https://www.blogger.com/profile/${profileId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline"
+              >
+                @{slug}
+              </Link>
+            ) : (
+              <>@{slug}</>
+            )}
           </p>
         </div>
       </section>

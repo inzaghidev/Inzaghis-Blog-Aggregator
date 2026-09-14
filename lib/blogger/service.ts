@@ -298,7 +298,7 @@ const normalize = (
     url: `/posts/${post.id}`,
     cover,
     labels: post.labels || ["Technology"],
-    author: { name: post.author?.displayName || "Inzaghi's Blog" },
+    author: { name: post.author?.displayName || "Inzaghi's Blog", profileId: post.author?.id },
     views: 0,
     comments: 0,
   };

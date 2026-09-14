@@ -213,10 +213,10 @@ export function Header() {
 
           {/* Create Post */}
           <Link
-            href="/admin"
+            href="/blog-lists"
             className="hidden rounded-lg bg-orange-500 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-orange-600 hover:shadow-md active:scale-95 transition-all duration-200 md:block"
           >
-            Create Post
+            Our Blogs
           </Link>
 
           {/* Hamburger */}
@@ -295,11 +295,11 @@ export function Header() {
             </Link>
 
             <Link
-              href="/admin"
+              href="/blog-lists"
               className="mx-5 mt-3 rounded-lg bg-orange-500 px-4 py-3 text-center text-sm font-bold text-white hover:bg-orange-600 active:scale-95 transition-all duration-200"
               onClick={() => setOpen(false)}
             >
-              Create Post
+              Our Blogs
             </Link>
           </nav>
         </div>

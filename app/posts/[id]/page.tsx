@@ -52,7 +52,10 @@ export default async function Post({
             <p className="text-[10px] font-bold uppercase tracking-wider text-orange-500">
               {article.labels.slice(0, 3).join(" · ")}
             </p>
-            <Link href={article.url} className="flex rounded-lg bg-orange-400 gap-3 px-4 py-2 mr-auto md:mr-0! min-w-0 items-center active:scale-95 transition-all duration-200 text-xs text-white hover:bg-orange-500! hover:text-white">
+            <Link
+              href={article.url}
+              className="flex rounded-lg bg-orange-400 gap-3 px-4 py-2 mr-auto md:mr-0! min-w-0 items-center active:scale-95 transition-all duration-200 text-xs text-white hover:bg-orange-500! hover:text-white"
+            >
               Original Post
             </Link>
           </div>
@@ -70,7 +73,10 @@ export default async function Post({
               <span className="grid size-9 place-items-center rounded-full bg-orange-500 font-bold text-white">
                 {article.author.name[0]}
               </span>
-              <Link href={`/authors/${authorSlug}`} className="hover:underline">
+              <Link
+                href={`/authors/${authorSlug}`}
+                className="rounded-lg gap-3 px-3 py-2 mr-auto md:mr-0! min-w-0 items-center active:scale-95 transition-all duration-200 text-xs text-black dark:text-white hover:bg-gray-200! hover:dark:bg-gray-800!"
+              >
                 <b>{article.author.name}</b>
                 <br />
                 <span className="text-zinc-400">Author & Editor</span>
@@ -108,14 +114,14 @@ export default async function Post({
               className="mt-4 h-24 w-full rounded-xl bg-zinc-100 p-3 text-xs outline-none dark:bg-zinc-900"
               placeholder="Share your thoughts…"
             />
-            <button className="mt-3 rounded-full bg-orange-500 px-4 py-2 text-xs font-bold text-white">
+            <button className="mt-3 rounded-full bg-orange-500 px-4 py-2 text-sm font-bold tracking-wide text-white">
               Post comment
             </button>
           </section>
         </article>
         <aside className="h-fit space-y-5 lg:sticky lg:top-24">
           <div className="paper rounded-2xl p-5">
-            <p className="text-xs font-bold">In this article</p>
+            <p className="text-sm font-bold tracking-wide">In this article</p>
             <a href="#" className="mt-4 block text-xs text-orange-600">
               The synchronous change
             </a>
@@ -124,7 +130,7 @@ export default async function Post({
             </a>
           </div>
           <div className="paper rounded-2xl p-5">
-            <p className="text-xs font-bold">Share</p>
+            <p className="text-sm font-bold tracking-wide">Share</p>
             <div className="mt-3 flex gap-2">
               <button className="rounded-lg bg-zinc-100 p-2 dark:bg-zinc-800">
                 <Share2 className="size-4" />
