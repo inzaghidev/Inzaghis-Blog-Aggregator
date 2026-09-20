@@ -12,7 +12,8 @@ const blogs = [
     title: "Inzaghi's Blog Legacy",
     url: "https://inzaghiposuma.blogspot.com",
     image: "/images/inzaghis-blog-legacy.png",
-    description: "Merupakan Blog Lama yang sudah tersedia sejak Tahun 2018, tempat untuk memposting apapun itu.",
+    description:
+      "Merupakan Blog Lama yang sudah tersedia sejak Tahun 2018, tempat untuk memposting apapun itu.",
     category: "Personal",
     since: "Since 2018",
   },
@@ -20,17 +21,19 @@ const blogs = [
     title: "Teknoblog",
     url: "https://enzatech.blogspot.com",
     image: "/images/teknoblog-by-inzaghis-blog.png",
-    description: "Merupakan Pindahan dari Blog Lama yang bernama Inzaghi's Blog (Legacy), dan Artikel yang dikhususkan tentang Teknologi.",
+    description:
+      "Merupakan Pindahan dari Blog Lama yang bernama Inzaghi's Blog (Legacy), dan Artikel yang dikhususkan tentang Teknologi.",
     category: "Technology",
-    since: "Since 2024",
+    since: "Since 2023",
   },
   {
     title: "Miniblog",
     url: "https://enzashorts.blogspot.com",
     image: "/images/miniblog-by-inzaghis-blog.png",
-    description: "Merupakan Blog khusus Microblogging, terutama untuk menyimpan Postingan Sederhana seperti Kode Program Sederhana, hingga Teks dan Tutorial Singkat.",
+    description:
+      "Merupakan Blog khusus Microblogging, terutama untuk menyimpan Postingan Sederhana seperti Kode Program Sederhana, hingga Teks dan Tutorial Singkat.",
     category: "Microblogging",
-    since: "Since 2024",
+    since: "Since 2023",
   },
 ];
 
@@ -52,7 +55,12 @@ export default function BlogListsPage() {
             key={blog.title}
             className="group flex flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900/50"
           >
-            <Link href={blog.url} target="_blank" rel="noopener noreferrer" className="flex h-full flex-col">
+            <Link
+              href={blog.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-full flex-col"
+            >
               <div className="relative h-48 w-full overflow-hidden">
                 <Image
                   src={blog.image}
@@ -71,11 +79,11 @@ export default function BlogListsPage() {
                     {blog.since}
                   </span>
                 </div>
-                
-                <h3 className="mt-4 text-xl font-bold leading-tight tracking-tight text-zinc-900 dark:text-zinc-100">
+
+                <h3 className="mt-4 text-xl text-center font-bold leading-tight tracking-tight text-zinc-900 dark:text-zinc-100">
                   {blog.title}
                 </h3>
-                
+
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
                   {blog.description}
                 </p>
