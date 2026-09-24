@@ -188,10 +188,7 @@ const extractFirstImage = (content: string): string | null => {
   if (!src) return null;
   const normalized = src.replace(/ /g, "%20");
   try {
-    return new URL(
-      normalized,
-      "https://blogger.googleusercontent.com",
-    ).href;
+    return new URL(normalized, "https://blogger.googleusercontent.com").href;
   } catch {
     return null;
   }
@@ -297,8 +294,11 @@ const normalize = (
     updated: post.updated,
     url: `/posts/${post.id}`,
     cover,
-    labels: post.labels || ["Technology"],
-    author: { name: post.author?.displayName || "Inzaghi's Blog", profileId: post.author?.id },
+    labels: post.labels || ["No Category"],
+    author: {
+      name: post.author?.displayName || "Inzaghi's Blog",
+      profileId: post.author?.id,
+    },
     views: 0,
     comments: 0,
   };
