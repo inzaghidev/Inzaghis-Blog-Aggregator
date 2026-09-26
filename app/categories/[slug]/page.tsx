@@ -1,5 +1,44 @@
+import type { Metadata } from "next";
 import { getArticles, isArticleInCategory } from "@/lib/blogger/service";
 import { ArticleList } from "@/components/articles/article-list";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const slug = decodeURIComponent((await params).slug);
+  const label = slug
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+
+  return {
+    title: `Category: ${label}`,
+    description: `Browse all ${label.toUpperCase()} posts from Inzaghi's Blog Legacy, Teknoblog, and Miniblog.`,
+    alternates: {
+      canonical: `/categories/${slug}`,
+    },
+    openGraph: {
+      title: `Category: ${label}`,
+      description: `Browse all ${label.toUpperCase()} posts from Inzaghi's Blog Legacy, Teknoblog, and Miniblog.`,
+      type: "website",
+      images: [
+        {
+          url: "/images/inzaghis-blog-aggregator.png",
+          width: 1200,
+          height: 630,
+          alt: "Inzaghi's Blog Aggregator",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `Category: ${label}`,
+      description: `Browse all ${label.toUpperCase()} posts from Inzaghi's Blog Legacy, Teknoblog, and Miniblog.`,
+      images: ["/images/inzaghis-blog-aggregator.png"],
+    },
+  };
+}
 
 export default async function Category({
   params,
@@ -7,7 +46,9 @@ export default async function Category({
   params: Promise<{ slug: string }>;
 }) {
   const slug = decodeURIComponent((await params).slug);
-  const label = slug.replace(/-/g, " ");
+  const label = slug
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
   const articles = await getArticles();
   const posts = articles.filter((article) => isArticleInCategory(article, slug));
 

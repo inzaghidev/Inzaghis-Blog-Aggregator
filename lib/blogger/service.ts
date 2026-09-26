@@ -18,6 +18,11 @@ const categoryRules = [
     sources: ["legacy", "teknoblog"] as BlogSource[],
   },
   {
+    slug: "artikel-pendek",
+    label: "Artikel Pendek",
+    sources: ["miniblog"] as BlogSource[],
+  },
+  {
     slug: "berita",
     label: "Berita",
     sources: ["legacy", "teknoblog", "miniblog"] as BlogSource[],
@@ -43,8 +48,73 @@ const categoryRules = [
     sources: ["legacy", "teknoblog"] as BlogSource[],
   },
   {
+    slug: "ekobisnis",
+    label: "Ekobisnis",
+    sources: ["legacy", "teknoblog"] as BlogSource[],
+  },
+  {
+    slug: "doa-dan-ibadah",
+    label: "Doa dan Ibadah",
+    sources: ["miniblog"] as BlogSource[],
+  },
+  {
+    slug: "games",
+    label: "Games",
+    sources: ["legacy", "teknoblog"] as BlogSource[],
+  },
+  {
+    slug: "hiburan",
+    label: "Hiburan",
+    sources: ["legacy", "teknoblog"] as BlogSource[],
+  },
+  {
+    slug: "kesehatan",
+    label: "Kesehatan",
+    sources: ["legacy", "teknoblog"] as BlogSource[],
+  },
+  {
+    slug: "kesenian",
+    label: "Kesenian",
+    sources: ["legacy", "teknoblog"] as BlogSource[],
+  },
+  {
+    slug: "kode-program",
+    label: "Kode Program",
+    sources: ["miniblog"] as BlogSource[],
+  },
+  {
+    slug: "kode-program",
+    label: "Kode Program",
+    sources: ["miniblog"] as BlogSource[],
+  },
+  {
+    slug: "olahraga",
+    label: "Olahraga",
+    sources: ["miniblog"] as BlogSource[],
+  },
+  {
+    slug: "prompt-ai",
+    label: "Prompt AI",
+    sources: ["miniblog"] as BlogSource[],
+  },
+  {
     slug: "rumus-rumus",
     label: "Rumus-rumus",
+    sources: ["legacy", "teknoblog"] as BlogSource[],
+  },
+  {
+    slug: "resep",
+    label: "Resep",
+    sources: ["miniblog"] as BlogSource[],
+  },
+  {
+    slug: "sainstek",
+    label: "Sainstek",
+    sources: ["legacy", "teknoblog"] as BlogSource[],
+  },
+  {
+    slug: "soshum",
+    label: "Soshum",
     sources: ["legacy", "teknoblog"] as BlogSource[],
   },
   {
@@ -58,20 +128,9 @@ const categoryRules = [
     sources: ["legacy", "teknoblog"] as BlogSource[],
   },
   {
-    slug: "artikel-pendek",
-    label: "Artikel Pendek",
-    sources: ["miniblog"] as BlogSource[],
-  },
-  {
     slug: "vlog",
     label: "VLOG",
     sources: ["legacy", "teknoblog", "miniblog"] as BlogSource[],
-  },
-  { slug: "resep", label: "Resep", sources: ["miniblog"] as BlogSource[] },
-  {
-    slug: "prompt-ai",
-    label: "Prompt AI",
-    sources: ["miniblog"] as BlogSource[],
   },
 ] as const;
 

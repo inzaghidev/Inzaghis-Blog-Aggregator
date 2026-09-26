@@ -10,15 +10,25 @@ import {
 import { getArticles } from "@/lib/blogger/service";
 
 const categories = [
+  { slug: "agama", label: "Agama" },
   { slug: "berita", label: "Berita" },
   { slug: "campus-life", label: "Campus Life" },
   { slug: "careers", label: "Careers" },
   { slug: "doa-dan-ibadah", label: "Doa dan Ibadah" },
   { slug: "edukasi", label: "Edukasi" },
+  { slug: "ekobisnis", label: "Ekobisnis" },
+  { slug: "games", label: "Games" },
+  { slug: "hiburan", label: "Hiburan" },
+  { slug: "kesehatan", label: "Kesehatan" },
+  { slug: "kesenian", label: "Kesenian" },
+  { slug: "olahraga", label: "Olahraga" },
   { slug: "kode-program", label: "Kode Program" },
   { slug: "prompt-ai", label: "Prompt AI" },
   { slug: "rumus-rumus", label: "Rumus-rumus" },
   { slug: "resep", label: "Resep" },
+  { slug: "sainstek", label: "Sainstek" },
+  { slug: "soshum", label: "Soshum" },
+  { slug: "umum-dan-lain-lain", label: "Umum dan Lain-lain" },
   { slug: "tekno", label: "Tekno" },
   { slug: "vlog", label: "VLOG" },
 ];
@@ -61,7 +71,10 @@ export async function Sidebar() {
               0{i + 1}
             </span>
             <div>
-              <p title={post.title} className="line-clamp-2 text-xs font-semibold leading-snug transition-colors group-hover:text-orange-500">
+              <p
+                title={post.title}
+                className="line-clamp-2 text-xs font-semibold leading-snug transition-colors group-hover:text-orange-500"
+              >
                 {post.title}
               </p>
               <p className="mt-1 text-[10px] text-zinc-400">
