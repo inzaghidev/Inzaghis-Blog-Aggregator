@@ -83,14 +83,9 @@ const categoryRules = [
     sources: ["miniblog"] as BlogSource[],
   },
   {
-    slug: "kode-program",
-    label: "Kode Program",
-    sources: ["miniblog"] as BlogSource[],
-  },
-  {
     slug: "olahraga",
     label: "Olahraga",
-    sources: ["miniblog"] as BlogSource[],
+    sources: ["legacy", "teknoblog"] as BlogSource[],
   },
   {
     slug: "prompt-ai",
