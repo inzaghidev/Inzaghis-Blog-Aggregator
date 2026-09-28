@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { getArticleHeadings } from "./article-outline-utils";
 
 interface ArticleContentProps {
   cover: string;
@@ -30,6 +31,15 @@ export function ArticleContent({ cover, html, title }: ArticleContentProps) {
   useEffect(() => {
     const root = copyRef.current;
     if (!root) return;
+
+    const headingElements = root.querySelectorAll<HTMLHeadingElement>(
+      "h1, h2, h3, h4, h5, h6",
+    );
+    const headings = getArticleHeadings(root);
+    headingElements.forEach((heading, index) => {
+      if (!heading.id) heading.id = headings[index].id;
+      heading.style.scrollMarginTop = "6rem";
+    });
 
     root.querySelectorAll("iframe").forEach((frame) => {
       const w = parseFloat(frame.getAttribute("width") || "");

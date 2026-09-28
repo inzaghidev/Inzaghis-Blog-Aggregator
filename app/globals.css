@@ -247,6 +247,11 @@ body {
   width: 100%;
   table-layout: fixed;
 }
+.dark .article-copy table,
+.dark .article-copy th,
+.dark .article-copy td {
+  border-color: #fff !important;
+}
 .article-copy pre {
   width: 100%;
   max-width: 100%;

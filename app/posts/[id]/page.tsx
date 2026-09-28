@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Calendar, Eye, Link2, Share2 } from "lucide-react";
+import { BookOpen, Calendar, Eye, Share2 } from "lucide-react";
 import { getArticle, getArticles } from "@/lib/blogger/service";
 import { ArticleCard } from "@/components/articles/article-card";
+import { ArticleOutline } from "@/components/articles/article-outline";
+import { ShareButtons } from "@/components/articles/share-buttons";
 import { ArticleContent } from "../../../components/articles/article-content";
 import { formatDate } from "@/lib/utils";
 export async function generateMetadata({
@@ -119,26 +121,22 @@ export default async function Post({
             </button>
           </section>
         </article>
-        <aside className="h-fit space-y-5 lg:sticky lg:top-24">
+        <aside className="h-fit space-y-5 lg:sticky lg:top-24 lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto lg:overscroll-contain">
           <div className="paper rounded-2xl p-5">
-            <p className="text-sm font-bold tracking-wide">In this article</p>
-            <a href="#" className="mt-4 block text-xs text-orange-600">
-              The synchronous change
-            </a>
-            <a href="#" className="mt-3 block text-xs text-zinc-500">
-              Looking ahead
-            </a>
+            <div className="flex items-center gap-2">
+              <BookOpen className="size-5" />
+              <h2 className="text-md font-bold tracking-wide">
+                In this Article
+              </h2>
+            </div>
+            <ArticleOutline html={article.content} />
           </div>
           <div className="paper rounded-2xl p-5">
-            <p className="text-sm font-bold tracking-wide">Share</p>
-            <div className="mt-3 flex gap-2">
-              <button className="rounded-lg bg-zinc-100 p-2 dark:bg-zinc-800">
-                <Share2 className="size-4" />
-              </button>
-              <button className="rounded-lg bg-zinc-100 p-2 dark:bg-zinc-800">
-                <Link2 className="size-4" />
-              </button>
+            <div className="flex items-center gap-2">
+              <Share2 className="size-5" />
+              <h2 className="text-md font-bold tracking-wide">Share</h2>
             </div>
+            <ShareButtons articleUrl={article.url} />
           </div>
         </aside>
       </div>
