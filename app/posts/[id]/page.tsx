@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BookOpen, Calendar, Eye, Share2 } from "lucide-react";
+import { BookOpen, Calendar, Share2 } from "lucide-react";
 import { getArticle, getArticles } from "@/lib/blogger/service";
 import { ArticleCard } from "@/components/articles/article-card";
 import { ArticleOutline } from "@/components/articles/article-outline";
 import { ShareButtons } from "@/components/articles/share-buttons";
+import { ArticleViewCount } from "@/components/articles/article-view-count";
 import { ArticleContent } from "../../../components/articles/article-content";
 import { formatDate } from "@/lib/utils";
 export async function generateMetadata({
@@ -86,7 +87,10 @@ export default async function Post({
             </div>
             <span className="flex min-w-0 items-center gap-3 text-zinc-500">
               <Calendar className="size-4" /> {formatDate(article.published)}
-              <Eye className="size-4" /> {article.views}
+              <ArticleViewCount
+                articleId={article.id}
+                initialViews={article.views ?? 0}
+              />
             </span>
           </div>
           <ArticleContent

@@ -2,6 +2,7 @@ import sanitizeHtml from "sanitize-html";
 import { excerpt } from "@/lib/utils";
 import { mockArticles } from "./mock";
 import type { Article, Blog, BlogSource } from "./types";
+import { getViewCounts } from "./views";
 
 const names: Record<BlogSource, string> = {
   legacy: "IB Legacy",
@@ -378,11 +379,16 @@ export async function getArticles(query?: string): Promise<Article[]> {
     listCache = { articles: await fetchAllArticles(), at: Date.now() };
   }
   const source = listCache.articles;
-  return query
+  const filtered = query
     ? source.filter((a) =>
         `${a.title} ${a.excerpt}`.toLowerCase().includes(query.toLowerCase()),
       )
     : source;
+  const viewCounts = await getViewCounts(filtered);
+  return filtered.map((article) => ({
+    ...article,
+    views: viewCounts.get(article.id) ?? article.views ?? 0,
+  }));
 }
 export async function getArticle(id: string): Promise<Article | undefined> {
   if (id.startsWith("demo-")) return mockArticles.find((a) => a.id === id);
@@ -390,7 +396,9 @@ export async function getArticle(id: string): Promise<Article | undefined> {
   for (let i = 0; i < blogIds.length; i++) {
     const blogId = blogIds[i];
     try {
-      return normalize(await api(`/blogs/${blogId}/posts/${id}`), blogId, i);
+      const article = normalize(await api(`/blogs/${blogId}/posts/${id}`), blogId, i);
+      const viewCounts = await getViewCounts([article]);
+      return { ...article, views: viewCounts.get(article.id) ?? 0 };
     } catch {
       /* next blog */
     }

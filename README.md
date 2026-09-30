@@ -17,6 +17,7 @@ Dark Mode :
 - Responsive editorial home, story feed, category and author pages
 - Dynamic post pages with JSON-LD, OpenGraph metadata, related stories, table of contents shell, sharing, syntax-friendly content, and comments UI
 - Blogger aggregation for IB Legacy, Teknoblog, and Miniblog
+- Persistent aggregator-side article view counts using Upstash Redis
 - Server-only API layer, HTML sanitization, ISR caching, image optimization, and IP rate limiting
 - `robots.txt`, dynamic `sitemap.xml`, and `/rss.xml`
 - Dark mode, motion-ready card transitions, loading and error states
@@ -25,7 +26,8 @@ Dark Mode :
 
 1. Copy `.env.example` to `.env.local`.
 2. Set `BLOGGER_API_KEY` and comma-separated `BLOGGER_BLOG_IDS` (in the order Legacy, Teknoblog, Miniblog).
-3. Run `npm install`, then `npm run dev`.
+3. Set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` to enable persistent view counts.
+4. Run `npm install`, then `npm run dev`.
 
 Without credentials, the site deliberately runs with polished demo content so the interface can be reviewed safely.
 
@@ -40,7 +42,9 @@ Read operations use `/blogs/{blogId}`, `/posts`, and `/posts/{postId}`. Future p
 
 ## Deploy to Vercel
 
-Import the repository in Vercel, add the three variables from `.env.example`, and deploy. Set `NEXT_PUBLIC_SITE_URL` to the final HTTPS origin. Vercel automatically serves ISR revalidation, sitemap, robots, RSS, and optimized remote images.
+Import the repository in Vercel, add the required variables from `.env.example`, and deploy. Set `NEXT_PUBLIC_SITE_URL` to the final HTTPS origin. Vercel automatically serves ISR revalidation, sitemap, robots, RSS, and optimized remote images.
+
+Article views recorded by the aggregator are stored per Blogger blog and post in Upstash Redis. These are aggregator views, not Blogger dashboard views: Blogger API v3 does not expose historical post view totals, and visits to the aggregator do not count as visits to the original Blogspot post.
 
 ## Architecture
 

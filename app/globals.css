@@ -87,47 +87,41 @@ body {
 
 .article-copy h1 {
   font-size: 1.75rem;
-  color: #f97316; /* Orange */
 }
 .article-copy h2 {
   font-size: 1.45rem;
-  color: #0ea5e9; /* Sky Blue */
 }
 .article-copy h3 {
   font-size: 1.25rem;
-  color: #4f46e5; /* Indigo/Purple */
 }
 .article-copy h4 {
   font-size: 1.15rem;
-  color: #10b981; /* Emerald */
 }
 .article-copy h5 {
   font-size: 1.05rem;
-  color: #ec4899; /* Pink */
 }
 .article-copy h6 {
   font-size: 0.95rem;
-  color: #8b5cf6; /* Violet */
 }
 
 /* Dark mode headings */
 .dark .article-copy h1 {
-  color: #fb923c;
+  color: white;
 }
 .dark .article-copy h2 {
-  color: #38bdf8;
+  color: white;
 }
 .dark .article-copy h3 {
-  color: #818cf8;
+  color: white;
 }
 .dark .article-copy h4 {
-  color: #34d399;
+  color: white;
 }
 .dark .article-copy h5 {
-  color: #f472b6;
+  color: white;
 }
 .dark .article-copy h6 {
-  color: #a78bfa;
+  color: white;
 }
 
 /* Lists: Points, Bullets, and Numbering */
