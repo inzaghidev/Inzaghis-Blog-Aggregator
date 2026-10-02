@@ -8,6 +8,8 @@ import {
   Tag,
 } from "lucide-react";
 import { getArticles } from "@/lib/blogger/service";
+import { article } from "framer-motion/m";
+import { formatDate } from "@/lib/utils";
 
 const categories = [
   { slug: "agama", label: "Agama" },
@@ -36,6 +38,7 @@ const categories = [
 export async function Sidebar() {
   const articles = await getArticles();
   const popularPosts = articles.slice(0, 5);
+  const currentYear = new Date().getFullYear();
 
   return (
     <aside className="space-y-5">
@@ -68,7 +71,7 @@ export async function Sidebar() {
             className="group mt-4 flex gap-3 block"
           >
             <span className="text-3xl font-bold leading-none text-zinc-200 transition-colors group-hover:text-orange-500 dark:text-zinc-700">
-              0{i + 1}
+              {i + 1}
             </span>
             <div>
               <p
@@ -77,8 +80,13 @@ export async function Sidebar() {
               >
                 {post.title}
               </p>
-              <p className="mt-1 text-[10px] text-zinc-400">
-                {i + 3}.2k reads · {i + 2} comments
+              <p className="mt-1 text-[10px] leading-4 text-zinc-400">
+                {formatDate(
+                  post.published,
+                  new Date(post.published).getFullYear() < currentYear,
+                )}
+                {" • "}
+                {post.labels?.[0] || "No Category"}
               </p>
             </div>
           </Link>

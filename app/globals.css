@@ -51,6 +51,63 @@ body {
   color: #c4c4c4;
 }
 
+/* Dark-mode inline Blogger accents: keep colored emphasis lighter and softer */
+.dark .article-copy [style*="color: red"],
+.dark .article-copy [style*="color: #ff0000"],
+.dark .article-copy [style*="color: #ff0000"],
+.dark .article-copy [style*="color: #f00"] {
+  color: #ff9a9a !important;
+}
+.dark .article-copy [style*="color: blue"],
+.dark .article-copy [style*="color:blue"],
+.dark .article-copy [style*="color: navy"],
+.dark .article-copy [style*="color: darkblue"],
+.dark .article-copy [style*="color: #0000ff"],
+.dark .article-copy [style*="color:#0000ff"],
+.dark .article-copy [style*="color: #0000FF"],
+.dark .article-copy [style*="color:#0000FF"],
+.dark .article-copy [style*="color: #0000cc"],
+.dark .article-copy [style*="color:#0000cc"],
+.dark .article-copy [style*="color: #000099"],
+.dark .article-copy [style*="color:#000099"],
+.dark .article-copy [style*="color: #001f8f"],
+.dark .article-copy [style*="color:#001f8f"],
+.dark .article-copy [style*="color: #003366"],
+.dark .article-copy [style*="color:#003366"],
+.dark .article-copy [style*="color: #004c99"],
+.dark .article-copy [style*="color:#004c99"],
+.dark .article-copy [style*="color: #0066cc"],
+.dark .article-copy [style*="color:#0066cc"],
+.dark .article-copy [style*="color: #1155cc"],
+.dark .article-copy [style*="color:#1155cc"],
+.dark .article-copy [style*="color: #1a0dab"],
+.dark .article-copy [style*="color:#1a0dab"],
+.dark .article-copy [style*="color: #1d3fbf"],
+.dark .article-copy [style*="color:#1d3fbf"],
+.dark .article-copy [style*="color: #272de8"],
+.dark .article-copy [style*="color:#272de8"],
+.dark .article-copy [style*="color: #2b3fd8"],
+.dark .article-copy [style*="color:#2b3fd8"],
+.dark .article-copy [style*="color: #2b00fe"],
+.dark .article-copy [style*="color:#2b00fe"] {
+  color: #7785f8 !important;
+}
+.dark .article-copy [style*="border-bottom: 2px solid red"],
+.dark .article-copy [style*="border-bottom: 2px solid #ff0000"],
+.dark .article-copy [style*="border-bottom: 2px solid #f00"] {
+  border-bottom-color: #ff9a9a !important;
+}
+.dark .article-copy [style*="border-bottom: 2px solid blue"],
+.dark .article-copy [style*="border-bottom:2px solid blue"],
+.dark .article-copy [style*="border-bottom: 2px solid #0000ff"],
+.dark .article-copy [style*="border-bottom:2px solid #0000ff"],
+.dark .article-copy [style*="border-bottom: 2px solid #1155cc"],
+.dark .article-copy [style*="border-bottom:2px solid #1155cc"],
+.dark .article-copy [style*="border-bottom: 2px solid #272de8"],
+.dark .article-copy [style*="border-bottom:2px solid #272de8"] {
+  border-bottom-color: #7785f8 !important;
+}
+
 /* Links */
 .article-copy a {
   color: #dc2626;

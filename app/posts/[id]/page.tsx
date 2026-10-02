@@ -145,7 +145,7 @@ export default async function Post({
         </aside>
       </div>
       <section className="mt-16">
-        <h2 className="text-2xl font-bold tracking-tight">Keep reading</h2>
+        <h2 className="text-2xl font-bold tracking-tight">Other Articles</h2>
         <div className="mt-5 grid gap-5 sm:grid-cols-3">
           {related.map((a) => (
             <ArticleCard key={a.id} article={a} compact />
