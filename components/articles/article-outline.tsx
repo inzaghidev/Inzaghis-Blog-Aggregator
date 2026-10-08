@@ -97,7 +97,7 @@ export function ArticleOutline({ html }: ArticleOutlineProps) {
     <nav
       ref={navRef}
       aria-label="Article headings"
-      className="mt-4 pr-1"
+      className="mt-4 pr-1 lg:max-h-[55dvh] lg:overflow-y-auto lg:overscroll-contain"
     >
       <ol className="space-y-1">
         {headings.map((heading) => (
