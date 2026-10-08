@@ -125,7 +125,7 @@ export default async function Post({
             </button>
           </section>
         </article>
-        <aside className="h-fit space-y-5 lg:sticky lg:top-24 lg:self-start">
+        <aside className="h-fit space-y-5 lg:sticky lg:top-24 lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto lg:overscroll-contain">
           <div className="paper rounded-2xl p-5">
             <div className="flex items-center gap-2">
               <BookOpen className="size-5" />
