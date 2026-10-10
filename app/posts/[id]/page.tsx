@@ -8,7 +8,7 @@ import { ArticleOutline } from "@/components/articles/article-outline";
 import { ShareButtons } from "@/components/articles/share-buttons";
 import { ArticleViewCount } from "@/components/articles/article-view-count";
 import { ArticleContent } from "../../../components/articles/article-content";
-import { formatDate } from "@/lib/utils";
+import { formatDate, randomItems } from "@/lib/utils";
 export async function generateMetadata({
   params,
 }: {
@@ -31,9 +31,10 @@ export default async function Post({
 }) {
   const article = await getArticle((await params).id);
   if (!article) notFound();
-  const related = (await getArticles())
-    .filter((a) => a.id !== article.id)
-    .slice(0, 3);
+  const related = randomItems(
+    (await getArticles()).filter((a) => a.id !== article.id),
+    3,
+  );
   const authorSlug = article.author.name.toLowerCase().replace(/\s+/g, "-");
   const jsonLd = {
     "@context": "https://schema.org",
@@ -107,7 +108,7 @@ export default async function Post({
                 <Link
                   key={tag}
                   href={`/categories/${categorySlug}`}
-                  className="rounded-full bg-zinc-100 px-3 py-1.5 text-[10px] font-medium text-zinc-600 transition hover:bg-orange-50 hover:text-orange-600 dark:bg-zinc-800 dark:text-zinc-300"
+                  className="rounded-full bg-zinc-100 px-3 py-1.5 text-[10px] font-medium text-orange-600 transition hover:bg-orange-50 hover:text-orange-700 dark:bg-zinc-800 dark:text-orange-400 dark:hover:text-orange-300"
                 >
                   {tag}
                 </Link>

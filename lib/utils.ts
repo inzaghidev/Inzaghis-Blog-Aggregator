@@ -1,5 +1,19 @@
 import { clsx, type ClassValue } from "clsx";
 export const cn = (...inputs: ClassValue[]) => clsx(inputs);
+export const randomItems = <T>(items: readonly T[], count: number): T[] => {
+  const shuffled = [...items];
+  const length = Math.min(shuffled.length, Math.max(0, Math.floor(count)));
+
+  for (let index = 0; index < length; index++) {
+    const randomIndex = index + Math.floor(Math.random() * (shuffled.length - index));
+    [shuffled[index], shuffled[randomIndex]] = [
+      shuffled[randomIndex],
+      shuffled[index],
+    ];
+  }
+
+  return shuffled.slice(0, length);
+};
 export const readingTime = (html: string) =>
   `${Math.max(
     1,

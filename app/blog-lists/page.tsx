@@ -14,7 +14,7 @@ const blogs = [
     image: "/images/inzaghis-blog-legacy.png",
     description:
       "Merupakan Blog Lama yang sudah tersedia sejak Tahun 2018, tempat untuk memposting apapun itu.",
-    category: "Personal",
+    category: "Old Blog",
     since: "Since 2018",
   },
   {
@@ -23,7 +23,7 @@ const blogs = [
     image: "/images/teknoblog-by-inzaghis-blog.png",
     description:
       "Merupakan Pindahan dari Blog Lama yang bernama Inzaghi's Blog (Legacy), dan Artikel yang dikhususkan tentang Teknologi.",
-    category: "Technology",
+    category: "New Blog",
     since: "Since 2023",
   },
   {
@@ -45,7 +45,9 @@ export default function BlogListsPage() {
           Our Blogs
         </h1>
         <p className="mt-4 text-zinc-500 dark:text-zinc-400">
-          Explore the various blogs and platforms maintained by Inzaghi Posuma.
+          Inzaghi's Blog merupakan Platform Blogging sebagai tempat untuk
+          berbagi Ilmu Pengetahuan, terutama seputar IT. Inzaghi's Blog lebih
+          menggunakan Platform Blogger, agar lebih mudah dan praktis.
         </p>
       </div>
 

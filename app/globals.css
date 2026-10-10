@@ -15,6 +15,15 @@ html {
   scroll-behavior: smooth;
 }
 
+/* header {
+  color: #1b1b1b;
+  background: #fff6f0;
+}
+.dark header {
+  color: #f5f5f5;
+  background: #2c2928;
+} */
+
 body {
   color: #1b1b1b;
   background: #fafafa;

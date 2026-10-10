@@ -152,6 +152,11 @@ export function Header() {
         </nav>
 
         {/* Search (Desktop Only) */}
+        {/* <form
+          role="search"
+          onSubmit={submitSearch}
+          className="ml-8 hidden max-w-xs flex-1 items-center rounded-full bg-zinc-200 px-3 py-2 text-xs text-zinc-400 transition focus-within:bg-zinc-50 focus-within:ring-2 focus-within:ring-orange-500/40 dark:bg-zinc-900 dark:focus-within:bg-zinc-800 md:flex"
+        > */}
         <form
           role="search"
           onSubmit={submitSearch}

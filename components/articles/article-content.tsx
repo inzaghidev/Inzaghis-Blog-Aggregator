@@ -93,6 +93,7 @@ export function ArticleContent({ cover, html, title }: ArticleContentProps) {
       {previewSrc ? (
         <div
           className="fixed inset-0 z-50 flex cursor-zoom-out items-center justify-center bg-black/90 p-2"
+          style={{ position: "fixed", inset: 0, zIndex: 50 }}
           onClick={() => setPreviewSrc(null)}
         >
           <div className="relative max-h-full max-w-full overflow-hidden rounded-lg bg-black shadow-2xl">

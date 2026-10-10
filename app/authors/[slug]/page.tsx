@@ -1,23 +1,30 @@
 import { getArticles } from "@/lib/blogger/service";
 import { ArticleCard } from "@/components/articles/article-card";
+import { randomItems } from "@/lib/utils";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+
+const normalizeAuthorSlug = (value: string) =>
+  value.toLowerCase().trim().replace(/\s+/g, "-");
+
 export default async function Author({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const slug = (await params).slug;
-  const name = slug
-    .split("-")
-    .map((s) => s[0].toUpperCase() + s.slice(1))
-    .join(" ");
+  const slug = decodeURIComponent((await params).slug);
   const articles = await getArticles();
-
-  // Find the Blogger profile ID from any article by this author
-  const authorArticle = articles.find(
-    (a) => a.author.name.toLowerCase() === name.toLowerCase()
+  const authorArticles = articles.filter(
+    (article) =>
+      normalizeAuthorSlug(article.author.name) === normalizeAuthorSlug(slug),
   );
-  const profileId = authorArticle?.author.profileId;
+
+  if (!authorArticles.length) notFound();
+
+  const name = authorArticles[0].author.name;
+  const profileId = authorArticles.find((article) => article.author.profileId)
+    ?.author.profileId;
+  const related = randomItems(authorArticles, 12);
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
@@ -47,10 +54,11 @@ export default async function Author({
           </p>
         </div>
       </section>
-      <h2 className="mt-12 text-2xl font-bold">All articles</h2>
+
+      <h2 className="mt-12 text-2xl font-bold">Other Articles</h2>
       <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {articles.map((a) => (
-          <ArticleCard key={a.id} article={a} />
+        {related.map((article) => (
+          <ArticleCard key={article.id} article={article} />
         ))}
       </div>
     </main>
