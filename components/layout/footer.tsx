@@ -54,6 +54,14 @@ export function Footer() {
           >
             Linktree Inzaghi's Group
           </Link>
+          <Link
+            href="https://inzatech.netlify.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-indigo-600 transition hover:text-indigo-500 dark:text-indigo-400 hover:text-indigo-700 hover:dark:text-indigo-300"
+          >
+            InzaTech Poshaf
+          </Link>
           <GitHubButton
             href="https://github.com/inzaghidev/Inzaghis-Blog-Aggregator"
             data-color-scheme="no-preference: light; light: light; dark: dark;"

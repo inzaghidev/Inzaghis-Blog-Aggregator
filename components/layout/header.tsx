@@ -1,12 +1,27 @@
 "use client";
 import Link from "next/link";
-import { Menu, X, Moon, Search, SearchSlash, Sun } from "lucide-react";
+import {
+  ChevronDown,
+  Menu,
+  X,
+  Moon,
+  Search,
+  SearchSlash,
+  Sun,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+
+const blogLinks = [
+  { label: "IB Legacy", href: "https://inzaghiposuma.blogspot.com" },
+  { label: "Teknoblog", href: "https://enzatech.blogspot.com" },
+  { label: "Miniblog", href: "https://enzashorts.blogspot.com" },
+];
 
 export function Header() {
   const [dark, setDark] = useState(false);
   const [open, setOpen] = useState(false);
+  const [blogsOpen, setBlogsOpen] = useState(false);
   const [mobileSearch, setMobileSearch] = useState(false);
   const [query, setQuery] = useState("");
   const pathname = usePathname();
@@ -88,6 +103,11 @@ export function Header() {
     router.push(q ? `/search?q=${encodeURIComponent(q)}` : "/search");
     setOpen(false);
     setMobileSearch(false);
+  };
+
+  const closeMobileMenu = () => {
+    setOpen(false);
+    setBlogsOpen(false);
   };
 
   const linkClass = (path: string) => {
@@ -216,17 +236,56 @@ export function Header() {
             {dark ? <Sun className="size-4" /> : <Moon className="size-4" />}
           </button>
 
-          {/* Create Post */}
-          <Link
-            href="/blog-lists"
-            className="hidden rounded-lg bg-orange-500 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-orange-600 hover:shadow-md active:scale-95 transition-all duration-200 md:block"
-          >
-            Our Blogs
-          </Link>
+          {/* Our Blogs */}
+          <div className="relative hidden md:block">
+            <button
+              type="button"
+              aria-expanded={blogsOpen}
+              aria-haspopup="true"
+              aria-controls="desktop-blog-menu"
+              onClick={() => setBlogsOpen(!blogsOpen)}
+              className="flex items-center gap-2 rounded-lg border border-white/25 bg-orange-500 px-4 py-2 text-xs font-bold text-white shadow-md shadow-orange-950/10 backdrop-blur-xl transition-all duration-200 hover:bg-orange-600/85 hover:shadow-lg active:scale-95"
+            >
+              Our Blogs
+              <ChevronDown
+                className={`size-3.5 transition-transform ${blogsOpen ? "rotate-180" : ""}`}
+              />
+            </button>
+            {blogsOpen && (
+              <div
+                id="desktop-blog-menu"
+                className="absolute right-0 top-full z-50 mt-2 min-w-44 overflow-hidden rounded-xl border border-white/10 bg-white/95 p-1.5 shadow-xl backdrop-blur-xl backdrop-saturate-150 dark:border-white/10 dark:bg-zinc-900/95"
+              >
+                <Link
+                  href="/blog-lists"
+                  onClick={() => setBlogsOpen(false)}
+                  className="block rounded-lg px-3 py-2 text-sm font-semibold text-zinc-800 transition-colors hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800"
+                >
+                  All Blogs
+                </Link>
+                <div className="my-1 border-t border-zinc-200 dark:border-zinc-700" />
+                {blogLinks.map((blog) => (
+                  <a
+                    key={blog.label}
+                    href={blog.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setBlogsOpen(false)}
+                    className="block rounded-lg px-3 py-2 text-sm text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                  >
+                    {blog.label}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* Hamburger */}
           <button
-            onClick={() => setOpen(!open)}
+            onClick={() => {
+              setOpen(!open);
+              setBlogsOpen(false);
+            }}
             className="rounded-lg p-2 text-zinc-500 transition-all duration-200 hover:bg-zinc-100 hover:shadow-sm active:scale-95 dark:hover:bg-zinc-800 md:hidden"
           >
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
@@ -267,18 +326,14 @@ export function Header() {
       {open && (
         <div className="border-t border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 md:hidden">
           <nav className="flex flex-col px-5 py-4 gap-3">
-            <Link
-              href="/"
-              className={linkClass("/")}
-              onClick={() => setOpen(false)}
-            >
+            <Link href="/" className={linkClass("/")} onClick={closeMobileMenu}>
               Home
             </Link>
 
             <Link
               href="/blogs"
               className={linkClass("/blogs")}
-              onClick={() => setOpen(false)}
+              onClick={closeMobileMenu}
             >
               Blogs
             </Link>
@@ -286,7 +341,7 @@ export function Header() {
             <Link
               href="/microblogs"
               className={linkClass("/microblogs")}
-              onClick={() => setOpen(false)}
+              onClick={closeMobileMenu}
             >
               Microblogs
             </Link>
@@ -294,18 +349,53 @@ export function Header() {
             <Link
               href="/sitemap-client"
               className={linkClass("/sitemap-client")}
-              onClick={() => setOpen(false)}
+              onClick={closeMobileMenu}
             >
               Sitemap
             </Link>
 
-            <Link
-              href="/blog-lists"
-              className="mx-5 mt-3 rounded-lg bg-orange-500 px-4 py-3 text-center text-sm font-bold text-white hover:bg-orange-600 active:scale-95 transition-all duration-200"
-              onClick={() => setOpen(false)}
-            >
-              Our Blogs
-            </Link>
+            <div className="mx-5 mt-3">
+              <div className="flex items-center rounded-lg border border-white/25 bg-orange-500 text-white shadow-md shadow-orange-950/10 backdrop-blur-xl transition-colors hover:bg-orange-600/85">
+                <Link
+                  href="/blog-lists"
+                  className="flex-1 px-4 py-3 text-sm font-bold"
+                  onClick={closeMobileMenu}
+                >
+                  Our Blogs
+                </Link>
+                <button
+                  type="button"
+                  aria-label={blogsOpen ? "Hide blog links" : "Show blog links"}
+                  aria-expanded={blogsOpen}
+                  aria-controls="mobile-blog-menu"
+                  onClick={() => setBlogsOpen(!blogsOpen)}
+                  className="self-stretch rounded-r-lg px-4 transition-colors hover:bg-orange-700/80"
+                >
+                  <ChevronDown
+                    className={`size-4 transition-transform ${blogsOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+              </div>
+              {blogsOpen && (
+                <div
+                  id="mobile-blog-menu"
+                  className="mt-2 flex flex-col rounded-lg border border-white/50 bg-white/70 p-1.5 shadow-lg backdrop-blur-xl backdrop-saturate-150 dark:border-white/10 dark:bg-zinc-900/70"
+                >
+                  {blogLinks.map((blog) => (
+                    <a
+                      key={blog.label}
+                      href={blog.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={closeMobileMenu}
+                      className="rounded-md px-3 py-2.5 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                    >
+                      {blog.label}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
           </nav>
         </div>
       )}
