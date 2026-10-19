@@ -1,3 +1,5 @@
+// Old Code
+
 "use client";
 import Link from "next/link";
 import {
@@ -110,16 +112,24 @@ export function Header() {
     setBlogsOpen(false);
   };
 
-  const linkClass = (path: string) => {
+  const isActivePath = (path: string) => {
     const isHome = path === "/";
-    const isActive =
-      isHome && (pathname === "/" || pathname === "" || pathname === "//")
-        ? true
-        : pathname === path;
-    return isActive
-      ? "text-orange-500 font-bold"
-      : "text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors";
+    return isHome
+      ? pathname === "/" || pathname === "" || pathname === "//"
+      : pathname === path;
   };
+
+  const desktopLinkClass = (path: string) =>
+    isActivePath(path)
+      ? "px-3 py-2 font-bold text-orange-500 md:px-0 lg:py-3"
+      : "px-3 py-2 text-zinc-500 transition-colors dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 md:px-0 lg:py-3";
+
+  const mobileLinkClass = (path: string) =>
+    `rounded-lg px-3 py-2 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-900 ${
+      isActivePath(path)
+        ? "font-bold text-orange-500"
+        : "text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200"
+    }`;
 
   return (
     <header
@@ -153,20 +163,23 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="ml-8 hidden items-center gap-5 text-xs font-semibold md:flex">
-          <Link className={linkClass("/")} href="/">
+        <nav className="ml-4 hidden items-center gap-5 text-xs font-semibold md:flex lg:ml-8">
+          <Link className={desktopLinkClass("/")} href="/">
             Home
           </Link>
 
-          <Link className={linkClass("/blogs")} href="/blogs">
+          <Link className={desktopLinkClass("/blogs")} href="/blogs">
             Blogs
           </Link>
 
-          <Link className={linkClass("/microblogs")} href="/microblogs">
+          <Link className={desktopLinkClass("/microblogs")} href="/microblogs">
             Microblogs
           </Link>
 
-          <Link className={linkClass("/sitemap-client")} href="/sitemap-client">
+          <Link
+            className={desktopLinkClass("/sitemap-client")}
+            href="/sitemap-client"
+          >
             Sitemap
           </Link>
         </nav>
@@ -180,14 +193,14 @@ export function Header() {
         <form
           role="search"
           onSubmit={submitSearch}
-          className="ml-8 hidden max-w-xs flex-1 items-center rounded-full bg-zinc-100 px-3 py-2 text-xs text-zinc-400 transition focus-within:bg-zinc-50 focus-within:ring-2 focus-within:ring-orange-500/40 dark:bg-zinc-900 dark:focus-within:bg-zinc-800 md:flex"
+          className="ml-4 hidden max-w-[400px] min-w-0 flex-1 items-center rounded-full bg-zinc-100 px-3 py-2 text-xs text-zinc-400 transition focus-within:bg-zinc-50 focus-within:ring-2 focus-within:ring-orange-500/40 dark:bg-zinc-900 dark:focus-within:bg-zinc-800 md:ml-4 md:flex lg:ml-8"
         >
           <Search className="mr-2 size-3.5 shrink-0" />
 
           <input
             ref={desktopSearchRef}
             aria-label="Search articles"
-            className="w-full bg-transparent outline-none placeholder:text-zinc-400 dark:placeholder:text-zinc-500"
+            className="min-w-0 w-full bg-transparent outline-none placeholder:text-zinc-400 dark:placeholder:text-zinc-500"
             placeholder="Search articles..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -326,13 +339,17 @@ export function Header() {
       {open && (
         <div className="border-t border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 md:hidden">
           <nav className="flex flex-col px-5 py-4 gap-3">
-            <Link href="/" className={linkClass("/")} onClick={closeMobileMenu}>
+            <Link
+              href="/"
+              className={mobileLinkClass("/")}
+              onClick={closeMobileMenu}
+            >
               Home
             </Link>
 
             <Link
               href="/blogs"
-              className={linkClass("/blogs")}
+              className={mobileLinkClass("/blogs")}
               onClick={closeMobileMenu}
             >
               Blogs
@@ -340,7 +357,7 @@ export function Header() {
 
             <Link
               href="/microblogs"
-              className={linkClass("/microblogs")}
+              className={mobileLinkClass("/microblogs")}
               onClick={closeMobileMenu}
             >
               Microblogs
@@ -348,14 +365,14 @@ export function Header() {
 
             <Link
               href="/sitemap-client"
-              className={linkClass("/sitemap-client")}
+              className={mobileLinkClass("/sitemap-client")}
               onClick={closeMobileMenu}
             >
               Sitemap
             </Link>
 
-            <div className="mx-5 mt-3">
-              <div className="flex items-center rounded-lg border border-white/25 bg-orange-500 text-white shadow-md shadow-orange-950/10 backdrop-blur-xl transition-colors hover:bg-orange-600/85">
+            <div className="relative mt-2">
+              <div className="flex items-center rounded-xl border border-white/25 bg-orange-500 text-white shadow-md shadow-orange-950/10 backdrop-blur-xl transition-colors hover:bg-orange-600/85">
                 <Link
                   href="/blog-lists"
                   className="flex-1 px-4 py-3 text-sm font-bold"
@@ -379,7 +396,7 @@ export function Header() {
               {blogsOpen && (
                 <div
                   id="mobile-blog-menu"
-                  className="mt-2 flex flex-col rounded-lg border border-white/50 bg-white/70 p-1.5 shadow-lg backdrop-blur-xl backdrop-saturate-150 dark:border-white/10 dark:bg-zinc-900/70"
+                  className="mt-2 flex flex-col rounded-lg border border-orange-200/50 bg-white/70 p-1.5 shadow-lg backdrop-blur-xl backdrop-saturate-150 dark:border-white/10 dark:bg-zinc-900/70"
                 >
                   {blogLinks.map((blog) => (
                     <a

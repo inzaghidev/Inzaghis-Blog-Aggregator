@@ -58,7 +58,7 @@ export function Footer() {
             href="https://inzatech.netlify.app"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-semibold text-indigo-600 transition hover:text-indigo-500 dark:text-indigo-400 hover:text-indigo-700 hover:dark:text-indigo-300"
+            className="font-semibold text-indigo-600 transition hover:text-indigo-400 dark:text-indigo-400 hover:text-indigo-700 hover:dark:text-indigo-300"
           >
             InzaTech Poshaf
           </Link>
