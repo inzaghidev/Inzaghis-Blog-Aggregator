@@ -337,7 +337,7 @@ export function Header() {
       )}
 
       {open && (
-        <div className="border-t border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 md:hidden">
+        <div className="max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 md:hidden">
           <nav className="flex flex-col px-5 py-4 gap-3">
             <Link
               href="/"
