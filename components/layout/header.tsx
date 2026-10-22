@@ -188,7 +188,7 @@ export function Header() {
         {/* <form
           role="search"
           onSubmit={submitSearch}
-          className="ml-8 hidden max-w-xs flex-1 items-center rounded-full bg-zinc-200 px-3 py-2 text-xs text-zinc-400 transition focus-within:bg-zinc-50 focus-within:ring-2 focus-within:ring-orange-500/40 dark:bg-zinc-900 dark:focus-within:bg-zinc-800 md:flex"
+          className="ml-4 hidden max-w-[400px] min-w-0 flex-1 items-center rounded-full bg-zinc-200 px-3 py-2 text-xs text-zinc-400 transition focus-within:bg-zinc-50 focus-within:ring-2 focus-within:ring-orange-500/40 dark:bg-zinc-900 dark:focus-within:bg-zinc-800 md:ml-4 md:flex lg:ml-8"
         > */}
         <form
           role="search"
@@ -308,7 +308,7 @@ export function Header() {
 
       {/* Mobile Search */}
       {mobileSearch && (
-        <div className="border-t border-zinc-200 bg-white px-4 py-3 dark:border-zinc-800 dark:bg-zinc-950 md:hidden">
+        <div className="border-t border-zinc-200 bg-[#fffdfb] px-4 py-3 dark:border-zinc-800 dark:bg-[#272422] md:hidden">
           <form onSubmit={submitSearch} role="search">
             <div className="flex items-center gap-2 rounded-full bg-zinc-100 px-4 py-2.5 dark:bg-zinc-900">
               <Search className="size-4 shrink-0 text-zinc-400" />
@@ -337,7 +337,7 @@ export function Header() {
       )}
 
       {open && (
-        <div className="max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 md:hidden">
+        <div className="max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-zinc-200 bg-[#fffdfb] dark:border-zinc-800 dark:bg-[#272422] md:hidden">
           <nav className="flex flex-col px-5 py-4 gap-3">
             <Link
               href="/"

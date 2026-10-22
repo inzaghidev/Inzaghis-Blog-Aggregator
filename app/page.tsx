@@ -4,7 +4,9 @@ import { ArrowRight, Clock, Sparkles } from "lucide-react";
 import { getArticles } from "@/lib/blogger/service";
 import { ArticleList } from "@/components/articles/article-list";
 import { Sidebar } from "@/components/home/sidebar";
-export const revalidate = 300;
+
+export const revalidate = 3600;
+
 export default async function Home() {
   const articles = await getArticles();
   const hero = articles[0];

@@ -4,6 +4,8 @@ import { randomItems } from "@/lib/utils";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+export const revalidate = 3600;
+
 const normalizeAuthorSlug = (value: string) =>
   value.toLowerCase().trim().replace(/\s+/g, "-");
 

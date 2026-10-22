@@ -1,4 +1,5 @@
 import sanitizeHtml from "sanitize-html";
+import { unstable_cache } from "next/cache";
 import { excerpt } from "@/lib/utils";
 import { mockArticles } from "./mock";
 import type { Article, Blog, BlogSource } from "./types";
@@ -179,7 +180,7 @@ const api = async (path: string, attempts = 2): Promise<any> => {
   const url = `https://www.googleapis.com/blogger/v3${path}${path.includes("?") ? "&" : "?"}key=${key}`;
   for (let attempt = 1; attempt <= attempts; attempt++) {
     try {
-      const response = await fetch(url, { next: { revalidate: 3600 } });
+      const response = await fetch(url, { cache: "no-store" });
       if (response.ok) return response.json();
       const retryable = response.status === 429 || response.status >= 500;
       if (attempt < attempts && retryable) {
@@ -374,9 +375,18 @@ const fetchAllArticles = async (): Promise<Article[]> => {
   return results.length ? results : mockArticles;
 };
 
+// One shared Data Cache entry for the whole pipeline (all blogs + all pages
+// of pagination). Without this, every page render would re-create ~6 fetch
+// cache entries and multiply ISR writes on Vercel.
+const getCachedAllArticles = unstable_cache(
+  async (): Promise<Article[]> => fetchAllArticles(),
+  ["all-articles"],
+  { revalidate: 3600, tags: ["articles"] },
+);
+
 export async function getArticles(query?: string): Promise<Article[]> {
   if (!listCache || Date.now() - listCache.at > LIST_CACHE_TTL) {
-    listCache = { articles: await fetchAllArticles(), at: Date.now() };
+    listCache = { articles: await getCachedAllArticles(), at: Date.now() };
   }
   const source = listCache.articles;
   const filtered = query
@@ -392,19 +402,31 @@ export async function getArticles(query?: string): Promise<Article[]> {
 }
 export async function getArticle(id: string): Promise<Article | undefined> {
   if (id.startsWith("demo-")) return mockArticles.find((a) => a.id === id);
-  const blogIds = ids();
-  for (let i = 0; i < blogIds.length; i++) {
-    const blogId = blogIds[i];
-    try {
-      const article = normalize(await api(`/blogs/${blogId}/posts/${id}`), blogId, i);
-      const viewCounts = await getViewCounts([article]);
-      return { ...article, views: viewCounts.get(article.id) ?? 0 };
-    } catch {
-      /* next blog */
-    }
-  }
-  return undefined;
+  return getCachedArticle(id);
 }
+
+const getCachedArticle = unstable_cache(
+  async (id: string): Promise<Article | undefined> => {
+    const blogIds = ids();
+    for (let i = 0; i < blogIds.length; i++) {
+      const blogId = blogIds[i];
+      try {
+        const article = normalize(
+          await api(`/blogs/${blogId}/posts/${id}`),
+          blogId,
+          i,
+        );
+        const viewCounts = await getViewCounts([article]);
+        return { ...article, views: viewCounts.get(article.id) ?? 0 };
+      } catch {
+        /* next blog */
+      }
+    }
+    return undefined;
+  },
+  ["article-by-id"],
+  { revalidate: 3600 },
+);
 export async function getBlogs(): Promise<Blog[]> {
   const blogIds = ids();
   const demoBlogs = (["legacy", "teknoblog", "miniblog"] as BlogSource[]).map(
