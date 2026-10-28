@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Microblogs",
 };
 
-export const revalidate = 3600;
+export const revalidate = 7200;
 
 export default async function MicroblogsPage() {
   const articles = await getArticles();

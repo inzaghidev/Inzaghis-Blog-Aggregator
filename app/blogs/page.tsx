@@ -6,12 +6,12 @@ export const metadata: Metadata = {
   title: "Blogs",
 };
 
-export const revalidate = 3600;
+export const revalidate = 7200;
 
 export default async function BlogsPage() {
   const articles = await getArticles();
   const blogArticles = articles.filter(
-    (a) => a.source === "legacy" || a.source === "teknoblog"
+    (a) => a.source === "legacy" || a.source === "teknoblog",
   );
 
   return (

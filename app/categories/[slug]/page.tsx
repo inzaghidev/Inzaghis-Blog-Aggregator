@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getArticles, isArticleInCategory } from "@/lib/blogger/service";
 import { ArticleList } from "@/components/articles/article-list";
 
-export const revalidate = 3600;
+export const revalidate = 7200;
 
 export async function generateMetadata({
   params,
@@ -52,7 +52,9 @@ export default async function Category({
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c) => c.toUpperCase());
   const articles = await getArticles();
-  const posts = articles.filter((article) => isArticleInCategory(article, slug));
+  const posts = articles.filter((article) =>
+    isArticleInCategory(article, slug),
+  );
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6">

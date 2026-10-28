@@ -9,7 +9,8 @@ import { ShareButtons } from "@/components/articles/share-buttons";
 import { ArticleViewCount } from "@/components/articles/article-view-count";
 import { ArticleContent } from "../../../components/articles/article-content";
 import { formatDate, randomItems } from "@/lib/utils";
-export const revalidate = 3600;
+
+export const revalidate = 7200;
 export async function generateMetadata({
   params,
 }: {
