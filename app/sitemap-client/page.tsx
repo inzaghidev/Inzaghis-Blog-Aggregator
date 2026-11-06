@@ -1,5 +1,7 @@
-import { getArticles } from "@/lib/blogger/service";
+import { getSitemapArticles } from "@/lib/blogger/service";
 import { SitemapClient } from "./sitemap-client";
+
+export const revalidate = 7200;
 
 export const metadata = {
   title: "Sitemap - All Blog Posts",
@@ -37,7 +39,7 @@ export const metadata = {
 };
 
 export default async function SitemapPage() {
-  const articles = await getArticles();
+  const articles = await getSitemapArticles();
 
   const jsonLd = {
     "@context": "https://schema.org",

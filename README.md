@@ -20,6 +20,7 @@ Dark Mode :
 - Persistent aggregator-side article view counts using Upstash Redis
 - Server-only API layer, HTML sanitization, ISR caching, image optimization, and IP rate limiting
 - `robots.txt`, dynamic `sitemap.xml`, and `/rss.xml`
+- The rendered sitemap and XML sitemap read live Blogger posts, including all paginated results, and revalidate every two hours. If Blogger is unavailable, sitemap generation fails instead of publishing demo posts.
 - Dark mode, motion-ready card transitions, loading and error states
 
 ## Run locally
@@ -43,6 +44,8 @@ Read operations use `/blogs/{blogId}`, `/posts`, and `/posts/{postId}`. Future p
 ## Deploy to Vercel
 
 Import the repository in Vercel, add the required variables from `.env.example`, and deploy. Set `NEXT_PUBLIC_SITE_URL` to the final HTTPS origin. Vercel automatically serves ISR revalidation, sitemap, robots, RSS, and optimized remote images.
+
+The rendered sitemap (`/sitemap-client`) and XML sitemap (`/sitemap.xml`) refresh their Blogger data on demand at two-hour intervals. They do not use demo articles. Since revalidation is request-driven, a newly published post appears after the next sitemap request once the interval has elapsed; updates are not instantaneous.
 
 Article views recorded by the aggregator are stored per Blogger blog and post in Upstash Redis. These are aggregator views, not Blogger dashboard views: Blogger API v3 does not expose historical post view totals, and visits to the aggregator do not count as visits to the original Blogspot post.
 

@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next";
-import { getArticles } from "@/lib/blogger/service";
+import { getSitemapArticles } from "@/lib/blogger/service";
 
 export const revalidate = 7200;
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  const articles = await getArticles();
+  const articles = await getSitemapArticles();
   return [
     { url: base, lastModified: new Date() },
     { url: `${base}/articles`, lastModified: new Date() },

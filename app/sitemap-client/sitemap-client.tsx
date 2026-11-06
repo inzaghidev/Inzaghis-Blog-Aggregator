@@ -160,13 +160,17 @@ export function SitemapClient({ articles }: { articles: Article[] }) {
               className="group flex items-center gap-4 rounded-xl border border-zinc-100 bg-white p-3 transition hover:border-orange-200 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-orange-900/50"
             >
               <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-lg">
-                <Image
-                  src={article.cover}
-                  alt=""
-                  fill
-                  className="object-cover transition duration-300 group-hover:scale-105"
-                  sizes="96px"
-                />
+                {article.cover ? (
+                  <Image
+                    src={article.cover}
+                    alt=""
+                    fill
+                    className="object-cover transition duration-300 group-hover:scale-105"
+                    sizes="96px"
+                  />
+                ) : (
+                  <div className="h-full w-full bg-zinc-100 dark:bg-zinc-800" />
+                )}
               </div>
               <div className="min-w-0 flex-1">
                 <h3 className="line-clamp-1 text-sm font-semibold text-zinc-900 group-hover:text-orange-600 dark:text-white dark:group-hover:text-orange-400">

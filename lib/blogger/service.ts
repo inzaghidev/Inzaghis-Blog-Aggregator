@@ -174,13 +174,22 @@ const ids = () =>
     .filter(Boolean);
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const api = async (path: string, attempts = 2): Promise<any> => {
+const api = async (
+  path: string,
+  attempts = 2,
+  revalidateSeconds?: number,
+): Promise<any> => {
   const key = process.env.BLOGGER_API_KEY;
   if (!key) throw new Error("Blogger API is not configured");
   const url = `https://www.googleapis.com/blogger/v3${path}${path.includes("?") ? "&" : "?"}key=${key}`;
   for (let attempt = 1; attempt <= attempts; attempt++) {
     try {
-      const response = await fetch(url, { cache: "no-store" });
+      const response = await fetch(
+        url,
+        revalidateSeconds
+          ? { next: { revalidate: revalidateSeconds } }
+          : { cache: "no-store" },
+      );
       if (response.ok) return response.json();
       const retryable = response.status === 429 || response.status >= 500;
       if (attempt < attempts && retryable) {
@@ -216,25 +225,34 @@ const MAX_RESULTS = (() => {
 const fetchBlogPosts = async (
   blogId: string,
   position: number,
+  options: {
+    maxResults?: number;
+    revalidateSeconds?: number;
+    strict?: boolean;
+  } = {},
 ): Promise<Article[]> => {
+  const maxResults = options.maxResults ?? MAX_RESULTS;
   const articles: Article[] = [];
   let pageToken = "";
   do {
-    const pageSize = Math.min(500, MAX_RESULTS - articles.length);
+    const pageSize = Math.min(500, maxResults - articles.length);
     const params = new URLSearchParams({
       maxResults: String(pageSize),
       fetchImages: "true",
     });
     if (pageToken) params.set("pageToken", pageToken);
-    const data = await safeApi(`/blogs/${blogId}/posts?${params.toString()}`);
+    const path = `/blogs/${blogId}/posts?${params.toString()}`;
+    const data = options.strict
+      ? await api(path, 2, options.revalidateSeconds)
+      : await safeApi(path);
     if (!data) break;
     articles.push(
       ...(data.items || []).map((p: any) =>
-        normalize(p, blogId, position, false),
+        normalize(p, blogId, position, false, !options.strict),
       ),
     );
     pageToken = data.nextPageToken || "";
-  } while (pageToken && articles.length < MAX_RESULTS);
+  } while (pageToken && articles.length < maxResults);
   return articles;
 };
 const extractFirstImage = (content: string): string | null => {
@@ -324,14 +342,16 @@ const normalize = (
   blogId: string,
   i = 0,
   includeContent = true,
+  useMockCover = true,
 ): Article => {
   const raw = post.content || "";
   const content = includeContent ? sanitizeHtml(raw, sanitizeOptions) : "";
   const parsedCover = extractFirstImage(raw);
+  const fallbackCover = useMockCover
+    ? mockArticles[i % mockArticles.length].cover
+    : "";
   let cover =
-    post.images?.[0]?.url ||
-    parsedCover ||
-    mockArticles[i % mockArticles.length].cover;
+    post.images?.[0]?.url || parsedCover || fallbackCover;
   if (cover && cover.startsWith("//")) {
     cover = `https:${cover}`;
   }
@@ -383,6 +403,31 @@ const getCachedAllArticles = unstable_cache(
   ["all-articles"],
   { revalidate: 3600, tags: ["articles"] },
 );
+
+export async function getSitemapArticles(): Promise<Article[]> {
+  const blogIds = ids();
+  if (!blogIds.length) {
+    throw new Error("Blogger blog IDs are required to generate the sitemap");
+  }
+
+  const groups = await Promise.all(
+    blogIds.map((id, i) =>
+      fetchBlogPosts(id, i, {
+        maxResults: Number.POSITIVE_INFINITY,
+        revalidateSeconds: 7200,
+        strict: true,
+      }),
+    ),
+  );
+  const articles = groups
+    .flat()
+    .sort((a, b) => +new Date(b.published) - +new Date(a.published));
+  const viewCounts = await getViewCounts(articles);
+  return articles.map((article) => ({
+    ...article,
+    views: viewCounts.get(article.id) ?? 0,
+  }));
+}
 
 export async function getArticles(query?: string): Promise<Article[]> {
   if (!listCache || Date.now() - listCache.at > LIST_CACHE_TTL) {
