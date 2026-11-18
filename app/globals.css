@@ -242,9 +242,147 @@ body {
   text-align: center;
 }
 
+/* Blockquotes / Quotes */
+blockquote,
+.article-copy blockquote {
+  position: relative;
+  margin: 1.6rem 0;
+  padding: 1.1rem 2.75rem 1.1rem 1.35rem;
+  background-color: rgba(249, 115, 22, 0.04);
+  border-left: 4px solid #f97316;
+  border-top: 1px solid rgba(249, 115, 22, 0.1);
+  border-right: 1px solid rgba(249, 115, 22, 0.1);
+  border-bottom: 1px solid rgba(249, 115, 22, 0.1);
+  border-radius: 0.75rem 0.75rem 0.75rem 0.75rem;
+  color: #374151;
+  font-style: italic;
+  font-size: 0.98rem;
+  line-height: 1.75;
+}
+
+/* Subtle decorative quote watermark in the top-right corner */
+blockquote::after,
+.article-copy blockquote::after {
+  content: "";
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ea580c' fill-opacity='0.16'%3E%3Cpath d='M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Ensure child elements inside blockquote behave seamlessly */
+blockquote p,
+.article-copy blockquote p {
+  margin: 0.6rem 0;
+  color: inherit;
+  line-height: inherit;
+  font-style: inherit;
+}
+
+blockquote p:first-child,
+.article-copy blockquote p:first-child {
+  margin-top: 0;
+}
+
+blockquote p:last-child,
+.article-copy blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.article-copy blockquote span {
+  font-style: inherit;
+  font-family: inherit !important;
+}
+
+.article-copy blockquote strong,
+.article-copy blockquote b {
+  font-weight: 700;
+}
+
+.article-copy blockquote a {
+  color: #ea580c;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.article-copy blockquote a:hover {
+  color: #c2410c;
+}
+
+.article-copy blockquote cite,
+.article-copy blockquote footer {
+  display: block;
+  font-style: normal;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 0.75rem;
+  color: #6b7280;
+}
+
+blockquote blockquote,
+.article-copy blockquote blockquote {
+  margin: 0.75rem 0;
+  border-left-width: 3px;
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Dark mode blockquote styling */
+.dark blockquote,
+.dark .article-copy blockquote {
+  background-color: rgba(249, 115, 22, 0.06);
+  border-left-color: #fb923c;
+  border-top-color: rgba(255, 255, 255, 0.08);
+  border-right-color: rgba(255, 255, 255, 0.08);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+  color: #e5e7eb;
+}
+
+.dark blockquote::after,
+.dark .article-copy blockquote::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fb923c' fill-opacity='0.2'%3E%3Cpath d='M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z'/%3E%3C/svg%3E");
+}
+
+.dark .article-copy blockquote [style*="color: #000"],
+.dark .article-copy blockquote [style*="color:#000"],
+.dark .article-copy blockquote [style*="color: black"],
+.dark .article-copy blockquote [style*="color: #222"],
+.dark .article-copy blockquote [style*="color: #333"],
+.dark .article-copy blockquote [style*="color: #444"] {
+  color: #e5e7eb !important;
+}
+
+.dark blockquote blockquote,
+.dark .article-copy blockquote blockquote {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.dark .article-copy blockquote a {
+  color: #fb923c;
+}
+
+.dark .article-copy blockquote a:hover {
+  color: #fdba74;
+}
+
+.dark .article-copy blockquote cite,
+.dark .article-copy blockquote footer {
+  color: #9ca3af;
+}
+
+/* Collapse empty paragraphs that Blogger often outputs */
+.article-copy p:empty {
+  display: none;
+}
+
 .article-copy pre {
   overflow-x: auto;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   background: #111;
   padding: 1.2rem;
   color: #d4d4d4;
@@ -269,7 +407,7 @@ body {
 
 /* .article-copy pre {
   overflow-x: auto;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   background: #111 !important;
   padding: 1.2rem;
   color: #f7f7f7 !important;
@@ -414,6 +552,20 @@ body {
 @media (max-width: 768px) {
   .article-copy {
     font-size: 14px;
+  }
+
+  blockquote,
+  .article-copy blockquote {
+    padding: 0.9rem 2.25rem 0.9rem 1rem;
+    font-size: 0.93rem;
+  }
+
+  blockquote::after,
+  .article-copy blockquote::after {
+    top: 0.7rem;
+    right: 0.7rem;
+    width: 1.25rem;
+    height: 1.25rem;
   }
 
   .article-code-wrapper {

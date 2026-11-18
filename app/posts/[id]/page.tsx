@@ -111,7 +111,7 @@ export default async function Post({
                 <Link
                   key={tag}
                   href={`/categories/${categorySlug}`}
-                  className="rounded-full bg-zinc-100 px-3 py-1.5 text-[10px] font-medium text-orange-600 transition hover:bg-orange-50 hover:text-orange-700 dark:bg-zinc-800 dark:text-orange-400 dark:hover:text-orange-300"
+                  className="rounded-full bg-zinc-200 px-3 py-1.5 text-[10px] font-medium text-orange-600 transition hover:bg-orange-200 hover:text-orange-700 dark:bg-zinc-800 dark:hover:bg-orange-800 dark:text-orange-400 dark:hover:text-orange-300"
                 >
                   {tag}
                 </Link>
