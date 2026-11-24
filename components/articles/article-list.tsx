@@ -62,31 +62,38 @@ export function ArticleList({
             ) : null}
           </div>
           {filterSources ? (
-            <div className="flex flex-wrap gap-3">
+            <div className="inline-flex max-w-full flex-wrap items-center rounded-xl bg-zinc-300/70 p-1 dark:bg-zinc-700/80">
               <button
                 onClick={() => setFilter("all")}
-                className={`px-4 py-2 text-xs font-bold transition-all rounded-full ${
+                type="button"
+                className={`rounded-lg px-3.5 py-1.5 text-xs sm:text-sm font-semibold transition-all duration-200 ${
                   filter === "all"
-                    ? "bg-orange-500 text-white shadow-md shadow-orange-500/20"
-                    : "text-zinc-500 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900"
+                    ? "bg-white text-orange-600 shadow-lg dark:bg-black dark:text-orange-400"
+                    : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
                 }`}
               >
                 All ({articles.length})
               </button>
-              {filterSources.map((source) => (
-                <button
-                  key={source.value}
-                  onClick={() => setFilter(source.value)}
-                  className={`px-4 py-2 text-xs font-bold transition-all rounded-full ${
-                    filter === source.value
-                      ? "bg-orange-500 text-white shadow-md shadow-orange-500/20"
-                      : "text-zinc-500 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900"
-                  }`}
-                >
-                  {source.label} (
-                  {articles.filter((a) => a.source === source.value).length})
-                </button>
-              ))}
+              {filterSources.map((source) => {
+                const count = articles.filter(
+                  (a) => a.source === source.value,
+                ).length;
+                const isActive = filter === source.value;
+                return (
+                  <button
+                    key={source.value}
+                    onClick={() => setFilter(source.value)}
+                    type="button"
+                    className={`rounded-lg px-3.5 py-1.5 text-xs sm:text-sm font-semibold transition-all duration-200 ${
+                      isActive
+                        ? "bg-white text-orange-600 shadow-sm dark:bg-zinc-900 dark:text-orange-400"
+                        : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                    }`}
+                  >
+                    {source.label} ({count})
+                  </button>
+                );
+              })}
             </div>
           ) : null}
         </div>

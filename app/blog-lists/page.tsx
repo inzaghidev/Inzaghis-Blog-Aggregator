@@ -74,7 +74,7 @@ export default function BlogListsPage() {
               </div>
               <div className="flex flex-1 flex-col p-6">
                 <div className="flex items-center gap-3">
-                  <span className="rounded-full bg-zinc-100 px-3 py-1 text-[10px] font-medium text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200">
+                  <span className="rounded-full bg-orange-100 px-2.5 py-1 text-[10px] font-bold text-orange-600 dark:bg-orange-950/60 dark:text-orange-400">
                     {blog.category}
                   </span>
                   <span className="text-[10px] font-medium text-zinc-400">

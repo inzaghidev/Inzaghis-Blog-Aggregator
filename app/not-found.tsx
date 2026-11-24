@@ -5,10 +5,10 @@ export default function NotFound() {
       <div>
         <p className="text-7xl font-extrabold text-orange-500">404</p>
         <h1 className="mt-4 text-2xl font-bold">
-          This page drifted off the feed.
+          This page can no longer be found.
         </h1>
         <p className="mt-2 text-sm text-zinc-500">
-          It may have moved, or it may never have existed.
+          It may have moved, deleted, or it may never have existed.
         </p>
         <Link
           href="/"

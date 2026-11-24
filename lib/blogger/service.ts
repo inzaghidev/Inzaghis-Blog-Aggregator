@@ -403,6 +403,45 @@ const getCachedAllArticles = unstable_cache(
   { revalidate: 14400, tags: ["articles"] },
 );
 
+const SITEMAP_PAGE_MAX_RESULTS = 100;
+
+const getCachedSitemapPageArticles = unstable_cache(
+  async (): Promise<Article[]> => {
+    const blogIds = ids();
+    const groups = await Promise.all(
+      blogIds.map((id, i) =>
+        fetchBlogPosts(id, i, {
+          maxResults: SITEMAP_PAGE_MAX_RESULTS,
+          revalidateSeconds: 7200,
+          strict: true,
+        }),
+      ),
+    );
+    return groups
+      .flat()
+      .sort((a, b) => +new Date(b.published) - +new Date(a.published));
+  },
+  ["sitemap-page-articles"],
+  { revalidate: 7200, tags: ["articles"] },
+);
+
+export async function getSitemapPageArticles(): Promise<Article[]> {
+  if (process.env.NODE_ENV !== "development") {
+    return getSitemapArticles();
+  }
+
+  if (!ids().length) {
+    throw new Error("Blogger blog IDs are required to generate the sitemap");
+  }
+
+  const articles = await getCachedSitemapPageArticles();
+  const viewCounts = await getViewCounts(articles);
+  return articles.map((article) => ({
+    ...article,
+    views: viewCounts.get(article.id) ?? 0,
+  }));
+}
+
 export async function getSitemapArticles(): Promise<Article[]> {
   const blogIds = ids();
   if (!blogIds.length) {

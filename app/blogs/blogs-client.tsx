@@ -18,40 +18,45 @@ export function BlogsClient({ initialArticles }: BlogsClientProps) {
 
   return (
     <div className="mt-8">
-      {/* Premium Filter Controls */}
-      <div className="mb-8 flex gap-3 border-b border-zinc-100 pb-3 dark:border-zinc-800">
-        <button
-          onClick={() => setFilter("all")}
-          className={`px-4 py-2 text-xs font-bold transition-all rounded-full ${
-            filter === "all"
-              ? "bg-orange-500 text-white shadow-md shadow-orange-500/20"
-              : "text-zinc-500 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900"
-          }`}
-        >
-          All ({initialArticles.length})
-        </button>
-        <button
-          onClick={() => setFilter("teknoblog")}
-          className={`px-4 py-2 text-xs font-bold transition-all rounded-full ${
-            filter === "teknoblog"
-              ? "bg-orange-500 text-white shadow-md shadow-orange-500/20"
-              : "text-zinc-500 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900"
-          }`}
-        >
-          Teknoblog (
-          {initialArticles.filter((a) => a.source === "teknoblog").length})
-        </button>
-        <button
-          onClick={() => setFilter("legacy")}
-          className={`px-4 py-2 text-xs font-bold transition-all rounded-full ${
-            filter === "legacy"
-              ? "bg-orange-500 text-white shadow-md shadow-orange-500/20"
-              : "text-zinc-500 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900"
-          }`}
-        >
-          IB Legacy (
-          {initialArticles.filter((a) => a.source === "legacy").length})
-        </button>
+      {/* Premium Filter Controls (Tab Switcher) */}
+      <div className="mb-8">
+        <div className="inline-flex max-w-full flex-wrap items-center rounded-xl bg-zinc-300/70 p-1 dark:bg-zinc-700/80">
+          <button
+            onClick={() => setFilter("all")}
+            type="button"
+            className={`rounded-lg px-3.5 py-1.5 text-xs sm:text-sm font-semibold transition-all duration-200 ${
+              filter === "all"
+                ? "bg-white text-orange-600 shadow-lg dark:bg-black dark:text-orange-400"
+                : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            }`}
+          >
+            All ({initialArticles.length})
+          </button>
+          <button
+            onClick={() => setFilter("teknoblog")}
+            type="button"
+            className={`rounded-lg px-3.5 py-1.5 text-xs sm:text-sm font-semibold transition-all duration-200 ${
+              filter === "teknoblog"
+                ? "bg-white text-orange-600 shadow-lg dark:bg-black dark:text-orange-400"
+                : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            }`}
+          >
+            Teknoblog (
+            {initialArticles.filter((a) => a.source === "teknoblog").length})
+          </button>
+          <button
+            onClick={() => setFilter("legacy")}
+            type="button"
+            className={`rounded-lg px-3.5 py-1.5 text-xs sm:text-sm font-semibold transition-all duration-200 ${
+              filter === "legacy"
+                ? "bg-white text-orange-600 shadow-lg dark:bg-black dark:text-orange-400"
+                : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            }`}
+          >
+            IB Legacy (
+            {initialArticles.filter((a) => a.source === "legacy").length})
+          </button>
+        </div>
       </div>
 
       {filteredArticles.length === 0 ? (

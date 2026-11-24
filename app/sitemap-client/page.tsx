@@ -1,4 +1,4 @@
-import { getSitemapArticles } from "@/lib/blogger/service";
+import { getSitemapPageArticles } from "@/lib/blogger/service";
 import { SitemapClient } from "./sitemap-client";
 
 export const revalidate = 14400;
@@ -39,7 +39,8 @@ export const metadata = {
 };
 
 export default async function SitemapPage() {
-  const articles = await getSitemapArticles();
+  const articles = await getSitemapPageArticles();
+  const isLocal = process.env.NODE_ENV === "development";
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -64,7 +65,7 @@ export default async function SitemapPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <SitemapClient articles={articles} />
+      <SitemapClient articles={articles} isLocal={isLocal} />
     </main>
   );
 }
