@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getArticles, isArticleInCategory } from "@/lib/blogger/service";
 import { ArticleList } from "@/components/articles/article-list";
 
-export const revalidate = 14400;
+export const revalidate = 21600;
 
 export async function generateMetadata({
   params,

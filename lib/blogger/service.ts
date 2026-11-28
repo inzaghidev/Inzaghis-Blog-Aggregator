@@ -400,7 +400,7 @@ const fetchAllArticles = async (): Promise<Article[]> => {
 const getCachedAllArticles = unstable_cache(
   async (): Promise<Article[]> => fetchAllArticles(),
   ["all-articles"],
-  { revalidate: 14400, tags: ["articles"] },
+  { revalidate: 21600, tags: ["articles"] },
 );
 
 const SITEMAP_PAGE_MAX_RESULTS = 100;

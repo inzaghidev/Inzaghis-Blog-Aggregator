@@ -5,7 +5,7 @@ import { getArticles } from "@/lib/blogger/service";
 import { ArticleList } from "@/components/articles/article-list";
 import { Sidebar } from "@/components/home/sidebar";
 
-export const revalidate = 14400;
+export const revalidate = 21600;
 
 export default async function Home() {
   const articles = await getArticles();
